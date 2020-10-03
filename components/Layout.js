@@ -5,7 +5,7 @@ export default function Layout(props) {
   return (
     <>
       <Head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/icons8-damenschuh-in-seitenansicht-100.png" />
       </Head>
       <Header />
       <main>{props.children}</main>
