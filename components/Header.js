@@ -1,27 +1,58 @@
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 import Link from 'next/link';
+
+const header = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: #1c2826;
+  font-size: 26px;
+  cursor: pointer;
+`;
+
+const logo = css`
+  width: 100px;
+  background-color: #f2f3ae;
+  z-index: 2;
+  border-radius: 70%;
+  margin-left: 20px;
+  margin-bottom: 5px;
+`;
+
+const icon = css`
+  height: 70px;
+  z-index: 2;
+  background-color: #f2f3ae;
+  border-radius: 70%;
+  margin-right: 20px;
+`;
+
+const a = css`
+  color: #f2f3ae;
+  font-family: 'Fredericka the Great', cursive;
+`;
 
 export default function Header() {
   return (
-    <header
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        padding: 30,
-        background: '#eee',
-        marginBottom: 40,
-      }}
-    >
-      <img style={{ width: '100px' }} src="/logo.png" alt="logo"></img>
+    <header css={header}>
       <Link href="/">
-        <a>Home</a>
+        <img css={logo} src="/logo.png" alt="logo"></img>
       </Link>
       <Link href="/shoes/product-list">
-        <a>Our products</a>
+        <a css={a}>All Products</a>
+      </Link>
+      <Link href="/shoes/product-list">
+        <a css={a}>SALE</a>
+      </Link>
+      <Link href="/shoes/product-list">
+        <a css={a}>New in</a>
       </Link>
       <Link href="/shopping-cart">
-        <a>
+        <a css={a}>
           <img
-            style={{ width: '50px', height: '50px' }}
+            css={icon}
             src="/icons8-einkaufstasche-100.png"
             alt="shopping bag"
           ></img>

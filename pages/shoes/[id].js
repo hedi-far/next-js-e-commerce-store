@@ -2,6 +2,12 @@ import { useState } from 'react';
 import { shoes } from '../../database';
 import Layout from '../../components/Layout';
 import Head from 'next/head';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
+
+const img = css`
+  width: 400px;
+`;
 
 export default function Shoe(props) {
   const shoe = shoes.find((currentShoe) => {
@@ -25,7 +31,7 @@ export default function Shoe(props) {
         shoe size: {shoe.size} <br />
         price: {shoe.price}€
         <br />
-        <img style={{ width: '400px' }} src={shoe.image} alt={shoe.name}></img>
+        <img src={shoe.image} alt={shoe.name}></img>
         <br />
         {/* save the id attribute of the item */}
         <button>add to cart</button>
