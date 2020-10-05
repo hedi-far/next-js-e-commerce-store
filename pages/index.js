@@ -9,6 +9,7 @@ const intro = css`
   justify-content: center;
   font-family: 'Quicksand', sans-serif;
   color: #1c2826;
+  margin-bottom: 50px;
 `;
 
 const gallery = css`
@@ -31,7 +32,10 @@ export default function Home() {
         </Head>
         <main>
           <h1 css={intro}>Welcome!</h1>
-          <p css={intro}> Blabla descriptopn </p>
+          <p css={intro}>
+            {' '}
+            Find the shoes of your dreams at Shoe-be-Doo Shoe Outlet!
+          </p>
 
           <div css={gallery}>
             <img
@@ -46,7 +50,7 @@ export default function Home() {
             ></img>
             <img
               css={galleryItem}
-              src="/images/shopping-cart.jpg"
+              src="/images/smiley.jpg"
               alt="shop door"
             ></img>
           </div>

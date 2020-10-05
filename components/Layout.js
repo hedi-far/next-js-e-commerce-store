@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Header from './Header';
+import Footer from './Footer';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 
@@ -12,7 +13,7 @@ export default function Layout(props) {
       </Head>
       <Header />
       <main>{props.children}</main>
-      <footer>footer here</footer>;
+      <Footer />
     </>
   );
 }

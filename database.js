@@ -62,4 +62,25 @@ export const shoes = [
     price: '23',
     image: '/images/wedges_brown.jpg',
   },
+  {
+    id: '10',
+    name: 'sneaker_yellow',
+    size: '39',
+    price: '23',
+    image: '/images/sneaker_yellow.jpg',
+  },
+  {
+    id: '11',
+    name: 'sneaker_yellow',
+    size: '44',
+    price: '110',
+    image: '/images/leather_black.jpg',
+  },
+  {
+    id: '12',
+    name: 'sneaker_yellow',
+    size: '46',
+    price: '312',
+    image: '/images/leather_brown.jpg',
+  },
 ];

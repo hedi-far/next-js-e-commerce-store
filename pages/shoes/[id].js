@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { shoes } from '../../database';
 import Layout from '../../components/Layout';
 import Head from 'next/head';
@@ -6,7 +5,7 @@ import Head from 'next/head';
 import { jsx, css } from '@emotion/core';
 
 const img = css`
-  width: 400px;
+  width: 100px;
 `;
 
 export default function Shoe(props) {

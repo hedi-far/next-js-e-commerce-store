@@ -9,7 +9,6 @@ const header = css`
   flex-wrap: wrap;
   background-color: #1c2826;
   font-size: 26px;
-  cursor: pointer;
 `;
 
 const logo = css`
@@ -19,6 +18,7 @@ const logo = css`
   border-radius: 70%;
   margin-left: 20px;
   margin-bottom: 5px;
+  margin-top: 5px;
 `;
 
 const icon = css`
@@ -27,11 +27,14 @@ const icon = css`
   background-color: #f2f3ae;
   border-radius: 70%;
   margin-right: 20px;
+  margin-left: 40px;
 `;
 
 const a = css`
   color: #f2f3ae;
   font-family: 'Fredericka the Great', cursive;
+  font-size: 25x;
+  cursor: pointer;
 `;
 
 export default function Header() {
@@ -40,14 +43,17 @@ export default function Header() {
       <Link href="/">
         <img css={logo} src="/logo.png" alt="logo"></img>
       </Link>
+      <Link href="/">
+        <a css={a}>Home</a>
+      </Link>
       <Link href="/shoes/product-list">
         <a css={a}>All Products</a>
       </Link>
-      <Link href="/shoes/product-list">
+      <Link href="/">
         <a css={a}>SALE</a>
       </Link>
-      <Link href="/shoes/product-list">
-        <a css={a}>New in</a>
+      <Link href="/">
+        <a css={a}>New In</a>
       </Link>
       <Link href="/shopping-cart">
         <a css={a}>
