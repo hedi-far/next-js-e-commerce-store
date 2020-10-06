@@ -6,16 +6,14 @@ const footer = css`
   display: flex;
   justify-content: flex-end;
   flex-wrap: wrap;
-  background-color: #1c2826;
-  border-top: 1px;
-  margin-top: 30px;
+  border-top: 0.2px;
+  margin-top: 100px;
 `;
 
 const a = css`
-  color: #f2f3ae;
   font-family: 'Quicksand', sans-serif;
-  font-size: 8x;
-  margin-right: 15px;
+  font-size: 25x;
+  padding: 10px;
   cursor: pointer;
 `;
 

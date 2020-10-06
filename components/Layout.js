@@ -9,7 +9,6 @@ export default function Layout(props) {
     <>
       <Head>
         <html lang="eng" />
-        <link rel="icon" href="/icons8-damenschuh-in-seitenansicht-100.png" />
       </Head>
       <Header />
       <main>{props.children}</main>

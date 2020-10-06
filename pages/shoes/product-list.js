@@ -15,12 +15,17 @@ const intro = css`
 
 const product = css`
   height: 200px;
-  border-color: #9a0606;
-  border-style: inset;
-  border-width: thick;
   margin: 10px;
   border-radius: 20%;
   cursor: pointer;
+
+  &:hover {
+     {
+      -moz-box-shadow: 0 0 20px #666666;
+      -webkit-box-shadow: 0 0 20px #666666;
+      box-shadow: 0 0 20px #666666;
+    }
+  }
 `;
 
 const gallery = css`
@@ -35,7 +40,7 @@ export default function ShoppingCart() {
     <div>
       <Layout>
         <Head>
-          <title>Our shoes</title>
+          <title>All products</title>
         </Head>
 
         <h1 css={intro}>Our shoes</h1>

@@ -4,36 +4,20 @@ import Link from 'next/link';
 
 const header = css`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   flex-wrap: wrap;
-  background-color: #1c2826;
-  font-size: 26px;
-`;
-
-const logo = css`
-  width: 100px;
-  background-color: #f2f3ae;
-  z-index: 2;
-  border-radius: 70%;
-  margin-left: 20px;
-  margin-bottom: 5px;
-  margin-top: 5px;
+  font-size: 15px;
 `;
 
 const icon = css`
-  height: 70px;
-  z-index: 2;
-  background-color: #f2f3ae;
-  border-radius: 70%;
-  margin-right: 20px;
-  margin-left: 40px;
+  height: 45px;
 `;
 
 const a = css`
-  color: #f2f3ae;
-  font-family: 'Fredericka the Great', cursive;
+  font-family: 'Quicksand', sans-serif;
   font-size: 25x;
+  padding: 10px;
   cursor: pointer;
 `;
 
@@ -41,19 +25,16 @@ export default function Header() {
   return (
     <header css={header}>
       <Link href="/">
-        <img css={logo} src="/logo.png" alt="logo"></img>
-      </Link>
-      <Link href="/">
         <a css={a}>Home</a>
       </Link>
       <Link href="/shoes/product-list">
         <a css={a}>All Products</a>
       </Link>
       <Link href="/">
-        <a css={a}>SALE</a>
+        <a css={a}>New In</a>
       </Link>
       <Link href="/">
-        <a css={a}>New In</a>
+        <a css={a}>On Sale</a>
       </Link>
       <Link href="/shopping-cart">
         <a css={a}>
