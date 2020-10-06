@@ -36,7 +36,7 @@ export default function Header() {
       <Link href="/">
         <a css={a}>On Sale</a>
       </Link>
-      <Link href="/shopping-cart">
+      <Link href="/shopping-bag">
         <a css={a}>
           <img
             css={icon}

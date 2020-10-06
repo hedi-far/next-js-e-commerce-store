@@ -8,8 +8,6 @@ import { jsx, css } from '@emotion/core';
 const intro = css`
   display: flex;
   justify-content: center;
-  font-family: 'Quicksand', sans-serif;
-  color: #1c2826;
   margin-bottom: 50px;
 `;
 
@@ -50,7 +48,6 @@ export default function ShoppingCart() {
             return (
               <li key={shoe.id}>
                 <Link href={`/shoes/${shoe.id}`}>
-                  {/* <a>{shoe.name}</a> */}
                   <img css={product} src={`${shoe.image}`} alt="shoe"></img>
                 </Link>
               </li>

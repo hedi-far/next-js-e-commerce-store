@@ -18,7 +18,7 @@ const shoeInfo = css`
 `;
 
 const info2 = css`
-font-size: 22px;
+font-size: 22px !important;
 & shoeInfo 
 `;
 
@@ -29,30 +29,6 @@ const ul = css`
 const name = css`
 font-size: 48px;
 & ul
-`;
-
-const button = css`
-  box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
-	background-color:#ededed;
-	border-radius:9px;
-	border:2px solid #dcdcdc;
-	display:inline-block;
-	cursor:pointer;
-	color:#777777;
-	font-size:18px;
-	padding:20px 21px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #ffffff;
-}
-&:hover {
-	background:linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
-	background-color:#dfdfdf;
-}
-&:active {
-	position:relative;
-	top:1px;
-}
 `;
 
 export default function Shoe(props) {
@@ -81,7 +57,7 @@ export default function Shoe(props) {
           <li css={info2}>Size: {shoe.size}</li>
           <li css={info2}>Price: {shoe.price}€</li>
           <br />
-          <button css={button}>Add to cart</button>
+          <button>Bag it!</button>
         </ul>
       </div>
     </Layout>
