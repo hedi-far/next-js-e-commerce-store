@@ -17,6 +17,10 @@ const shoeInfo = css`
   font-size: 18px;
 `;
 
+const description = css`
+  margin-right: 50px;
+`;
+
 const info2 = css`
 font-size: 22px !important;
 & shoeInfo 
@@ -52,7 +56,7 @@ export default function Shoe(props) {
         <ul css={ul}>
           <li css={name}>{shoe.name}</li>
           <p>
-            <li>{shoe.description}</li>
+            <li css={description}>{shoe.description}</li>
           </p>
           <li css={info2}>Size: {shoe.size}</li>
           <li css={info2}>Price: {shoe.price}€</li>

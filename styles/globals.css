@@ -43,3 +43,9 @@ td {
 tr:hover {
   background-color: #f5f5f5;
 }
+
+input[type='text'] {
+  border: none;
+  border-bottom: 1px solid #777777;
+  height: 16px;
+}

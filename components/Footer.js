@@ -5,7 +5,6 @@ import Link from 'next/link';
 const footer = css`
   display: flex;
   justify-content: flex-end;
-  flex-wrap: wrap;
   border-top: 0.2px;
   margin-top: 100px;
 `;

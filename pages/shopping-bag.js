@@ -5,6 +5,10 @@ import Layout from '../components/Layout';
 import { jsx, css } from '@emotion/core';
 import { shoes } from '../database';
 
+const white = css`
+  background-color: #ffffff !important;
+`;
+
 const title = css`
   display: flex;
   justify-content: center;
@@ -46,7 +50,7 @@ export default function CheckOut() {
             <table>
               <tbody>
                 <tr>
-                  <td colspan="5">
+                  <td css={white} colspan="5">
                     <h1 css={title}>Your Shopping Bag</h1>
                   </td>
                 </tr>
