@@ -3,6 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
+// import { numberofItems } from './Button.js';
 
 export default function Layout(props) {
   return (

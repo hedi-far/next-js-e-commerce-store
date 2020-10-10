@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { shoes } from '../database';
+// import { shoes } from '../database';
 
 const white = css`
   background-color: #ffffff !important;
@@ -61,7 +61,7 @@ export default function CheckOut() {
                   <th>Prize</th>
                   <th></th>
                 </tr>
-                {shoes.map((shoe) => (
+                {shoppingBag.map((shoe) => (
                   <tr key={shoe.id}>
                     <td>
                       <img css={tinyImg} src={`${shoe.image}`} alt="shoe"></img>

@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
 
 const header = css`
   display: flex;
@@ -11,7 +12,7 @@ const header = css`
 `;
 
 const icon = css`
-  height: 45px;
+  height: 55px;
 `;
 
 const a = css`
@@ -21,7 +22,19 @@ const a = css`
   cursor: pointer;
 `;
 
-export default function Header() {
+const cartitems = css`
+  text-align: center;
+  height: 20px;
+  width: 20px;
+  background-color: #c8c6c3;
+  border-radius: 100%;
+  z-index: 2;
+  margin-right: -30px;
+`;
+
+export default function Header(props) {
+  //gets info for shopping cart
+  const numberofItems = Cookies.get('numberofItems');
   return (
     <header css={header}>
       <Link href="/">
@@ -36,6 +49,8 @@ export default function Header() {
       <Link href="/">
         <a css={a}>On Sale</a>
       </Link>
+
+      <span css={cartitems}>{numberofItems}</span>
       <Link href="/shopping-bag">
         <a css={a}>
           <img

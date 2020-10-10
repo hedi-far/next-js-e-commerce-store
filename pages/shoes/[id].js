@@ -3,6 +3,7 @@ import Layout from '../../components/Layout';
 import Head from 'next/head';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import Button from '../../components/Button';
 
 const img = css`
   width: 700px;
@@ -30,9 +31,9 @@ const ul = css`
   list-style-type: none;
 `;
 
-const name = css`
+const shoename = css`
 font-size: 48px;
-& ul
+&ul
 `;
 
 export default function Shoe(props) {
@@ -54,14 +55,20 @@ export default function Shoe(props) {
         <img css={img} src={shoe.image} alt={shoe.name}></img>
 
         <ul css={ul}>
-          <li css={name}>{shoe.name}</li>
+          <li css={shoename}>{shoe.name}</li>
           <p>
             <li css={description}>{shoe.description}</li>
           </p>
           <li css={info2}>Size: {shoe.size}</li>
           <li css={info2}>Price: {shoe.price}€</li>
           <br />
-          <button>Bag it!</button>
+
+          <Button
+            image={shoe.image}
+            name={shoe.name}
+            size={shoe.size}
+            price={shoe.price}
+          />
         </ul>
       </div>
     </Layout>

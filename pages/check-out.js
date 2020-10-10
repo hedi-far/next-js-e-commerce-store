@@ -17,6 +17,7 @@ const container = css`
 
 const form = css`
   margin-right: 20px;
+  width: 400px;
 `;
 
 const title = css`
@@ -117,7 +118,7 @@ export default function CheckOut() {
             <br />
             <label>
               <input type="checkbox" checked="checked" name="sameadr" />
-              Shipping address same as billing
+              Shipping address same as billing address.
               <br />
             </label>
           </form>
