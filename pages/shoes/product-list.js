@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
-import { shoes } from '../../database';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 
@@ -33,7 +32,7 @@ const gallery = css`
   flex-wrap: wrap;
 `;
 
-export default function ShoppingCart() {
+export default function ShoppingCart(props) {
   return (
     <div>
       <Layout>
@@ -44,7 +43,7 @@ export default function ShoppingCart() {
         <h1 css={intro}>Our shoes</h1>
 
         <ul css={gallery}>
-          {shoes.map((shoe) => {
+          {props.shoes.map((shoe) => {
             return (
               <li key={shoe.id}>
                 <Link href={`/shoes/${shoe.id}`}>
@@ -57,4 +56,17 @@ export default function ShoppingCart() {
       </Layout>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+
+  // dynamic import, import shoes from databse
+const { getShoes } = await import ('../../util/database')
+const shoes = await getShoes();
+
+return {
+  props: {  
+          shoes,
+          },
+};
 }

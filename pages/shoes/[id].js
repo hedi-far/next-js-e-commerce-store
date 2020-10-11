@@ -1,4 +1,4 @@
-import { shoes } from '../../database';
+// import { shoes } from '../../util/database';
 import Layout from '../../components/Layout';
 import Head from 'next/head';
 /** @jsx jsx */
@@ -80,7 +80,7 @@ export default function Shoe(props) {
     
   };
 
-  const shoe = shoes.find((currentShoe) => {
+  const shoe = props.shoes.find((currentShoe) => {
     if (currentShoe.id === props.id) {
       return true;
     }
@@ -91,24 +91,24 @@ export default function Shoe(props) {
   return (
     <Layout>
       <Head>
-        <title>{shoe.name}</title>
+        <title>{props.shoe.name}</title>
       </Head>
 
       <div css={shoeInfo}>
-        <img css={img} src={shoe.image} alt={shoe.name}></img>
+        <img css={img} src={props.shoe.image} alt={shoe.name}></img>
 
         <ul css={ul}>
-          <li css={shoename}>{shoe.name}</li>
+          <li css={shoename}>{props.shoe.name}</li>
           <p>
-            <li css={description}>{shoe.description}</li>
+            <li css={description}>{props.shoe.description}</li>
           </p>
-          <li css={info2}>Size: {shoe.size}</li>
-          <li css={info2}>Price: {shoe.price}€</li>
+          <li css={info2}>Size: {props.shoe.size}</li>
+          <li css={info2}>Price: {props.shoe.price}€</li>
           <br />
 
           <button
             onClick={(item) =>
-              handleAddtoBag(shoe.name, shoe.image, shoe.size, shoe.price)
+              handleAddtoBag(props.shoe.name, props.shoe.image, props.shoe.size, props.shoe.price)
             }
           >
             Add to bag
@@ -132,7 +132,11 @@ export function getServerSideProps(context) {
   const total = allCookies.total || [];
   
 
-  console.log(total)
+  // console.log(total)
+
+  // dynamic import, import shoes from databse
+const { getShoes } = await import ('../../util/database')
+const shoes = await getShoes();
       
   // //cookieString: "shoppingBag=[{%22name%22:%22Black%20Pumps%22%2C%22image%22:%22/images/pumps_black.jpg%22%2C%22size%22:%2241%22%2C%22price%22:%2227%22}]; numberofItems=1"
   // const cookieString = JSON.stringify(context.req.headers.cookie);
@@ -154,6 +158,7 @@ export function getServerSideProps(context) {
     props: { id: context.query.id, 
             shoppingBag, 
             numberofItems,
-            total },
+            total,
+            shoes },
   };
 }
