@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import Cookies from 'js-cookie';
 
 const image = css`
   height: 350px;
@@ -20,7 +21,12 @@ const container = css`
 `;
 
 export default function ThankYou() {
-  return (
+  
+  const numberofItems = Cookies.remove('numberofItems', { path: './thank-you' })
+  const shoppingBag = Cookies.remove('shoppingBag', { path: './thank-you' })
+  const total = Cookies.remove('total', { path: './thank-you' })
+
+   return (
     <div>
       <Layout>
         <Head>

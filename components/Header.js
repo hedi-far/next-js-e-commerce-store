@@ -30,11 +30,15 @@ const cartitems = css`
   border-radius: 100%;
   z-index: 2;
   margin-right: -30px;
+  text-decoration: none !important;
+  cursor: pointer;
 `;
 
-export default function Header(props) {
-  //gets info for shopping cart
-  const numberofItems = Cookies.get('numberofItems');
+
+export default function Header() {
+
+ const numberofItems = Cookies.get('numberofItems');
+
   return (
     <header css={header}>
       <Link href="/">
@@ -49,8 +53,9 @@ export default function Header(props) {
       <Link href="/">
         <a css={a}>On Sale</a>
       </Link>
-
-      <span css={cartitems}>{numberofItems}</span>
+      <Link href="/shopping-bag">
+        <a css={cartitems}>{numberofItems}</a>
+      </Link>
       <Link href="/shopping-bag">
         <a css={a}>
           <img

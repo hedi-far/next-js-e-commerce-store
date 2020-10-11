@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import nextCookies from 'next-cookies';
 
 const container = css`
   text-align: left;
@@ -29,7 +30,9 @@ const button = css`
   align-items: flex-end;
 `;
 
-export default function CheckOut() {
+export default function CheckOut(props) {
+
+  
   return (
     <div>
       <Layout>
@@ -37,6 +40,7 @@ export default function CheckOut() {
           <title>Check-out</title>
         </Head>
         <h1 css={title}>Pay now</h1>
+        <h1 css={title}>Total amount: {props.total} € </h1>
         <main css={container}>
           <form css={form}>
             <h3> Billing Address</h3>
@@ -132,3 +136,27 @@ export default function CheckOut() {
     </div>
   );
 }
+
+export function getServerSideProps(context) {
+
+  //comes from next-cookie
+  const allCookies = nextCookies(context);
+  
+  
+  let totalString = allCookies.total 
+  totalString = totalString.map(function (x) { 
+    return parseInt(x, 10); 
+  });
+  const totalArray = totalString.reduce(function (accumulator, currentValue) {
+    return accumulator + currentValue;
+  }, 0); 
+
+  const total = totalArray || [];
+
+  
+  return {
+    props: { 
+            
+            total },
+  };
+};
