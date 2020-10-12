@@ -28,18 +28,31 @@ const cartitems = css`
   width: 20px;
   background-color: #c8c6c3;
   border-radius: 100%;
-  z-index: 2;
+  z-index: 1;
   margin-right: -30px;
   text-decoration: none !important;
   cursor: pointer;
 `;
 
+const nocartitems = css`
+background-color: #ffffff;
+z-index: -1;
+`;
+
 
 export default function Header() {
 
- const numberofItems = Cookies.get('numberofItems');
+  
+ let numberofItems = Cookies.get('numberofItems');
+if (numberofItems === undefined){
+ numberofItems = false;
+//  console.log(numberofItems)
+ 
+ }
 
-  return (
+ console.log(numberofItems)
+ 
+return (
     <header css={header}>
       <Link href="/">
         <a css={a}>Home</a>
@@ -54,7 +67,8 @@ export default function Header() {
         <a css={a}>On Sale</a>
       </Link>
       <Link href="/shopping-bag">
-        <a css={cartitems}>{numberofItems}</a>
+        <a css={numberofItems ? cartitems : nocartitems }>{numberofItems}</a>
+        {/* <a css={cartitems}>{numberofItems}</a> */}
       </Link>
       <Link href="/shopping-bag">
         <a css={a}>
