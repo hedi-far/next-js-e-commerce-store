@@ -16,21 +16,23 @@ export async function getShoes() {
   `;
 return shoes;
 
+};
+
+export async function getShoeById(id) {
+  // Return undefined if the id is not
+  // in the correct format
+  // if (!/^\d+$/.test(id)) return undefined;
+
+  const shoe = await sql`
+    SELECT * FROM shoes WHERE id = ${id};
+  `;
+  return shoe;
 
 };
 
 
-
 // export const shoes = [
-//   {
-//     id: '1',
-//     name: 'Baby Shoes',
-//     description:
-//       'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
-//     size: '22',
-//     price: '45',
-//     image: '/images/baby_shoes.jpg',
-//   },
+//   
 //   {
 //     id: '2',
 

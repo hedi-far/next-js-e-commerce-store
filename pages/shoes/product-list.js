@@ -63,6 +63,7 @@ export async function getServerSideProps(context) {
   // dynamic import, import shoes from databse
 const { getShoes } = await import ('../../util/database')
 const shoes = await getShoes();
+// console.log(shoes);
 
 return {
   props: {  

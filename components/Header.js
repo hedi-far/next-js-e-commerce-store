@@ -36,6 +36,7 @@ const cartitems = css`
 
 const nocartitems = css`
 background-color: #ffffff;
+color: #ffffff;
 z-index: -1;
 `;
 
@@ -43,14 +44,13 @@ z-index: -1;
 export default function Header() {
 
   
- let numberofItems = Cookies.get('numberofItems');
-if (numberofItems === undefined){
- numberofItems = false;
-//  console.log(numberofItems)
+  let numberofItems = Cookies.get('numberofItems');
+  if (numberofItems === undefined || 0){
+   numberofItems = false;
+  //  console.log(numberofItems)
  
  }
 
- console.log(numberofItems)
  
 return (
     <header css={header}>

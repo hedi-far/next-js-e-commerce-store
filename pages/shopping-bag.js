@@ -76,7 +76,7 @@ export default function CheckOut(props) {
                   <td>Total:</td>
                   <td></td>
                   <td></td>
-                  <td css={totalamount}>{props.total} €</td>
+                  <td>{props.total} €</td>
                   <td>
                     <Link href={`/check-out`}>
                       <button>Pay now</button>

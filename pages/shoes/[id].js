@@ -41,6 +41,7 @@ font-size: 48px;
 
 export default function Shoe(props) {
 
+  // console.log(shoes)
  
   //set state for shoppingBag array
   const [shoppingBag, setShoppingBag] = useState(props.shoppingBag);
@@ -80,14 +81,14 @@ export default function Shoe(props) {
     
   };
 
-  const shoe = props.shoes.find((currentShoe) => {
-    if (currentShoe.id === props.id) {
-      return true;
-    }
+  // const shoes = props.shoes.find((currentShoe) => {
+  //   if (currentShoe.id === props.shoes.id) {
+  //     return true;
+  //   }
 
-    return false;
-  });
-
+  //   return false;
+  // });
+  // console.log(`id ${props.shoes.name}`)
   return (
     <Layout>
       <Head>
@@ -95,7 +96,7 @@ export default function Shoe(props) {
       </Head>
 
       <div css={shoeInfo}>
-        <img css={img} src={props.shoe.image} alt={shoe.name}></img>
+        <img css={img} src={props.shoe.image} alt={props.shoe.name}></img>
 
         <ul css={ul}>
           <li css={shoename}>{props.shoe.name}</li>
@@ -122,7 +123,7 @@ export default function Shoe(props) {
 //This is run by Next.js BEFORE the component above
 //is run, and passes in the props - all of this is inside the server!
 //This does not show up in the browser
-export function getServerSideProps(context) {
+export async function getServerSideProps(context) {
 
   //comes from next-cookie
   const allCookies = nextCookies(context);
@@ -135,8 +136,16 @@ export function getServerSideProps(context) {
   // console.log(total)
 
   // dynamic import, import shoes from databse
-const { getShoes } = await import ('../../util/database')
-const shoes = await getShoes();
+const { getShoeById }  =  await import ('../../util/database')
+let shoe = await getShoeById(context.query.id);
+shoe = parseInt(shoe)
+console.log(typeof shoe);
+
+
+// let modulePath = prompt("Which module to load?");
+// import(modulePath)
+//   .then(obj => <module object>)
+//   .catch(err => <loading error, e.g. if no such module>)
       
   // //cookieString: "shoppingBag=[{%22name%22:%22Black%20Pumps%22%2C%22image%22:%22/images/pumps_black.jpg%22%2C%22size%22:%2241%22%2C%22price%22:%2227%22}]; numberofItems=1"
   // const cookieString = JSON.stringify(context.req.headers.cookie);
@@ -159,6 +168,6 @@ const shoes = await getShoes();
             shoppingBag, 
             numberofItems,
             total,
-            shoes },
+            shoe },
   };
 }
