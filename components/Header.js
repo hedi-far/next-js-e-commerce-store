@@ -37,9 +37,10 @@ const cartitems = css`
 `;
 
 const nocartitems = css`
-background-color: #ffffff;
+/* background-color: #ffffff;
 color: #ffffff;
-z-index: -1;
+z-index: -1; */
+display: none;
 `;
 
 
@@ -47,12 +48,12 @@ export default function Header(props) {
 
   
   let numberofItems = props.numberofItems;
-  if (numberofItems === undefined | 0){
+  if (numberofItems === undefined || numberofItems === "0"){
    numberofItems = false;
   }
 
- 
-
+  console.log(typeof props.numberofItems)
+  console.log(typeof "0")
  
 return (
     <header css={header}>
@@ -70,8 +71,7 @@ return (
       </Link>
       <Link href="/shopping-bag">
         <a css={numberofItems ? cartitems : nocartitems }>{numberofItems}</a>
-        {/* <a css={cartitems}>{props.numberofItems}</a> */}
-      </Link>
+        </Link>
       <Link href="/shopping-bag">
         <a css={a}>
           <img

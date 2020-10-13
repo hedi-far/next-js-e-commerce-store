@@ -12,6 +12,13 @@ const white = css`
   background-color: #ffffff !important;
 `;
 
+const emptytitle = css`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 300px;
+  margin-top: 200px;
+`;
+
 const title = css`
   display: flex;
   justify-content: center;
@@ -22,6 +29,7 @@ const container = css`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-bottom: 250px;
 `;
 
 const img = css`
@@ -36,7 +44,13 @@ const tinyImg = css`
   height: 60px;
 `;
 
+const total = css`
+font-weight: bold;
+`;
+
 export default function CheckOut(props) {
+
+  if (props.shoppingBag, props.total) {
 
   
   return (
@@ -73,7 +87,7 @@ export default function CheckOut(props) {
                   </tr>
                 ))}
                 <tr>
-                  <td>Total:</td>
+                  <td css={total}>Total:</td>
                   <td></td>
                   <td></td>
                   <td>{props.total} €</td>
@@ -90,7 +104,23 @@ export default function CheckOut(props) {
       </Layout>
     </div>
   );
-               
+                } else {
+                  return (
+                    <div>
+                    <Layout numberofItems={props.numberofItems}>
+                      <Head>
+                        <title>Shopping Bag</title>
+                      </Head>
+                      <main>
+                        <div css={container}>
+                          <h1 css={emptytitle}>Your Shopping Bag is empty!</h1>   
+                        </div>
+                      </main>
+                    </Layout>
+                  </div>
+
+                  );
+                }             
 }; 
 
 export function getServerSideProps(context) {
@@ -100,12 +130,7 @@ export function getServerSideProps(context) {
   const numberofItems = allCookies.numberofItems || 0;
   const shoppingBag = allCookies.shoppingBag || [];
 
-  console.log(allCookies.shoppingBag)
-  console.log(allCookies.numberofItems)
-  console.log(allCookies.total)
-
-
-  let totalString = allCookies.total;
+  let totalString = allCookies.total || [0,0];
  
   totalString = totalString.map(function (x) { 
     return parseInt(x, 10); 
@@ -115,7 +140,12 @@ export function getServerSideProps(context) {
   }, 0); 
 
   const total = totalArray;
-        
+
+  // console.log(shoppingBag)
+  // console.log(numberofItems)
+  // console.log(total)
+
+          
 
   return {
     props: {  

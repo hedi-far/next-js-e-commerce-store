@@ -1,5 +1,5 @@
 exports.up = async (sql) => {
-	await sql `
+await sql `
 	INSERT INTO shoes (
 		name,
 		description,
@@ -7,11 +7,11 @@ exports.up = async (sql) => {
 		price,
 		image
 	) VALUES (
-		'Hiking Shoes',
+		'Brown Wedges',
 		'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
-		43,
-		65,
-		'/images/hiking_shoes.jpg'
+	  37,
+		23,
+		'/images/wedges_brown.jpg'
 				);
 	
 	`;
@@ -19,6 +19,6 @@ exports.up = async (sql) => {
 	
 	exports.down = async (sql) => {
 		await sql `
-		DELETE FROM shoes WHERE name = 'Hiking Shoes';
+		DELETE FROM shoes WHERE name = 'Brown Wedges';
 		`;
 		};

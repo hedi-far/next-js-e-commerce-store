@@ -19,7 +19,7 @@ exports.up = async (sql) => {
 	
 	exports.down = async (sql) => {
 		await sql `
-		DELETE FROM shoes WHERE name = 'Baby Shoes':
+		DELETE FROM shoes WHERE name = 'Baby Shoes';
 		`;
 		};
 	
