@@ -1,7 +1,9 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import Link from 'next/link';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
+// import { numberofItems } from '../pages/shoes/[id].js';
+// import nextCookies from 'next-cookies';
 
 const header = css`
   display: flex;
@@ -41,15 +43,15 @@ z-index: -1;
 `;
 
 
-export default function Header() {
+export default function Header(props) {
 
   
-  let numberofItems = Cookies.get('numberofItems');
-  if (numberofItems === undefined || 0){
+  let numberofItems = props.numberofItems;
+  if (numberofItems === undefined | 0){
    numberofItems = false;
-  //  console.log(numberofItems)
+  }
+
  
- }
 
  
 return (
@@ -68,7 +70,7 @@ return (
       </Link>
       <Link href="/shopping-bag">
         <a css={numberofItems ? cartitems : nocartitems }>{numberofItems}</a>
-        {/* <a css={cartitems}>{numberofItems}</a> */}
+        {/* <a css={cartitems}>{props.numberofItems}</a> */}
       </Link>
       <Link href="/shopping-bag">
         <a css={a}>
@@ -82,3 +84,5 @@ return (
     </header>
   );
 }
+
+

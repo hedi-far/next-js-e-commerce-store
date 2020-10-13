@@ -35,7 +35,7 @@ export default function CheckOut(props) {
   
   return (
     <div>
-      <Layout>
+     <Layout numberofItems={props.numberofItems}>
         <Head>
           <title>Check-out</title>
         </Head>
@@ -152,11 +152,13 @@ export function getServerSideProps(context) {
   }, 0); 
 
   const total = totalArray || [];
+  const numberofItems = allCookies.numberofItems || 0;
 
   
   return {
     props: { 
             
-            total },
+            total,
+            numberofItems, },
   };
 };

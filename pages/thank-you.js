@@ -25,7 +25,7 @@ export default function ThankYou() {
   const numberofItems = Cookies.remove('numberofItems', { path: './thank-you' })
   const shoppingBag = Cookies.remove('shoppingBag', { path: './thank-you' })
   const total = Cookies.remove('total', { path: './thank-you' })
-
+  
    return (
     <div>
       <Layout>

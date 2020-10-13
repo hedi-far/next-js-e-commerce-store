@@ -78,38 +78,42 @@ export default function Shoe(props) {
     const newTotal = total.concat(price);
 
     setTotal(newTotal);
+
+   
     
   };
 
-  // const shoes = props.shoes.find((currentShoe) => {
-  //   if (currentShoe.id === props.shoes.id) {
+  // const shoe = props.shoe.find((currentShoe) => {
+  //   if (currentShoe.id === props.shoe.id) {
   //     return true;
   //   }
 
   //   return false;
   // });
-  // console.log(`id ${props.shoes.name}`)
+  // console.log(props.id)
+  // console.log(props.shoe[0].name)
+
   return (
-    <Layout>
+    <Layout numberofItems={numberofItems} >
       <Head>
-        <title>{props.shoe.name}</title>
+        <title>{props.shoe[0].name}</title>
       </Head>
 
       <div css={shoeInfo}>
-        <img css={img} src={props.shoe.image} alt={props.shoe.name}></img>
+        <img css={img} src={props.shoe[0].image} alt={props.shoe[0].name}></img>
 
         <ul css={ul}>
-          <li css={shoename}>{props.shoe.name}</li>
+          <li css={shoename}>{props.shoe[0].name}</li>
           <p>
-            <li css={description}>{props.shoe.description}</li>
+            <li css={description}>{props.shoe[0].description}</li>
           </p>
-          <li css={info2}>Size: {props.shoe.size}</li>
-          <li css={info2}>Price: {props.shoe.price}€</li>
+          <li css={info2}>Size: {props.shoe[0].size}</li>
+          <li css={info2}>Price: {props.shoe[0].price}€</li>
           <br />
 
           <button
             onClick={(item) =>
-              handleAddtoBag(props.shoe.name, props.shoe.image, props.shoe.size, props.shoe.price)
+              handleAddtoBag(props.shoe[0].name, props.shoe[0].image, props.shoe[0].size, props.shoe[0].price)
             }
           >
             Add to bag
@@ -137,9 +141,12 @@ export async function getServerSideProps(context) {
 
   // dynamic import, import shoes from databse
 const { getShoeById }  =  await import ('../../util/database')
-let shoe = await getShoeById(context.query.id);
-shoe = parseInt(shoe)
-console.log(typeof shoe);
+const id = parseInt(context.query.id)
+// const id = context.query.id;
+const shoe = await getShoeById(id);
+
+// console.log(typeof id);
+// console.log(shoe);
 
 
 // let modulePath = prompt("Which module to load?");
@@ -164,7 +171,7 @@ console.log(typeof shoe);
 // // console.log(index);
 
   return {
-    props: { id: context.query.id, 
+    props: { id, 
             shoppingBag, 
             numberofItems,
             total,

@@ -28,7 +28,9 @@ export async function getShoeById(id) {
   `;
   return shoe;
 
+  
 };
+
 
 
 // export const shoes = [

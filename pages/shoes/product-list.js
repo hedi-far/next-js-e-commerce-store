@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Layout from '../../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import nextCookies from 'next-cookies';
 
 const intro = css`
   display: flex;
@@ -35,7 +36,7 @@ const gallery = css`
 export default function ShoppingCart(props) {
   return (
     <div>
-      <Layout>
+      <Layout numberofItems={props.numberofItems}>
         <Head>
           <title>All products</title>
         </Head>
@@ -65,9 +66,13 @@ const { getShoes } = await import ('../../util/database')
 const shoes = await getShoes();
 // console.log(shoes);
 
+const allCookies = nextCookies(context);
+  const numberofItems = allCookies.numberofItems || 0;
+
 return {
   props: {  
           shoes,
+          numberofItems
           },
 };
 }

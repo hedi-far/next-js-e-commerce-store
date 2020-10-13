@@ -38,10 +38,10 @@ const tinyImg = css`
 
 export default function CheckOut(props) {
 
-    
+  
   return (
     <div>
-      <Layout>
+      <Layout numberofItems={props.numberofItems}>
         <Head>
           <title>Shopping Bag</title>
         </Head>
@@ -90,16 +90,23 @@ export default function CheckOut(props) {
       </Layout>
     </div>
   );
-}
+               
+}; 
 
 export function getServerSideProps(context) {
 
   //comes from next-cookie
   const allCookies = nextCookies(context);
+  const numberofItems = allCookies.numberofItems || 0;
+  const shoppingBag = allCookies.shoppingBag || [];
 
-  
-  const shoppingBag = allCookies.shoppingBag 
-  let totalString = allCookies.total 
+  console.log(allCookies.shoppingBag)
+  console.log(allCookies.numberofItems)
+  console.log(allCookies.total)
+
+
+  let totalString = allCookies.total;
+ 
   totalString = totalString.map(function (x) { 
     return parseInt(x, 10); 
   });
@@ -107,31 +114,14 @@ export function getServerSideProps(context) {
     return accumulator + currentValue;
   }, 0); 
 
-  const total = totalArray || [];
-
-  
-  
-      
-  // //cookieString: "shoppingBag=[{%22name%22:%22Black%20Pumps%22%2C%22image%22:%22/images/pumps_black.jpg%22%2C%22size%22:%2241%22%2C%22price%22:%2227%22}]; numberofItems=1"
-  // const cookieString = JSON.stringify(context.req.headers.cookie);
-  
-  // //returns the index of ] in respective cookieString
-  // const index = cookieString.lastIndexof(']');
-
-  // let shoppingBag = cookieString.substring(0, index);// shorten cookieString after ] and returns substring from index 0]'
-    
-  // shoppingBag = shoppingBag.split('shoppingBag=[', ']') || []; //splits substring after '[' and before ']';
-    
-  // const numberofItems = context.req.headers.cookie.split(';', 'numberofItems=')|| 0 ;
-
-      
-// console.log(typeof cookieString);
-// // console.log(index);
+  const total = totalArray;
+        
 
   return {
     props: {  
             shoppingBag, 
-            total
+            total,
+            numberofItems
             },
   };
 }

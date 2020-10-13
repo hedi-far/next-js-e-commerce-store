@@ -3,15 +3,18 @@ import Header from './Header';
 import Footer from './Footer';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-// import { numberofItems } from './Button.js';
+
 
 export default function Layout(props) {
+
+  console.log (props.numberofItems)
+ 
   return (
     <>
       <Head>
         <html lang="eng" />
       </Head>
-      <Header />
+      <Header numberofItems = {props.numberofItems} />
       <main>{props.children}</main>
       <Footer />
     </>

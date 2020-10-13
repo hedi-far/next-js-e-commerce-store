@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import nextCookies from 'next-cookies';
 
 const intro = css`
   display: flex;
@@ -23,10 +24,10 @@ const galleryItem = css`
   border-radius: 8px;
 `;
 
-export default function Home() {
+export default function Home(props) {
   return (
     <div>
-      <Layout>
+      <Layout numberofItems={props.numberofItems}>
         <Head>
           <title>Welcome!</title>
         </Head>
@@ -54,4 +55,17 @@ export default function Home() {
       </Layout>
     </div>
   );
+}
+
+
+export async function getServerSideProps(context) {
+
+  const allCookies = nextCookies(context);
+  const numberofItems = allCookies.numberofItems || 0;
+   
+  return {
+    props: {              
+            numberofItems,
+             },
+  };
 }
