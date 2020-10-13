@@ -50,7 +50,7 @@ font-weight: bold;
 
 export default function CheckOut(props) {
 
-  if (props.shoppingBag, props.total) {
+  if (props.shoppingBag && props.total) {
 
   
   return (
@@ -70,6 +70,7 @@ export default function CheckOut(props) {
                 </tr>
                 <tr>
                   <th></th>
+                  <th>Quantity</th>
                   <th>Item</th>
                   <th>Size</th>
                   <th>Prize</th>
@@ -80,6 +81,7 @@ export default function CheckOut(props) {
                     <td>
                       <img css={tinyImg} src={`${shoe.image}`} alt="shoe"></img>
                     </td>
+                    <td>1</td>
                     <td>{shoe.name}</td>
                     <td>{shoe.size}</td>
                     <td>{shoe.price} €</td>
@@ -88,7 +90,7 @@ export default function CheckOut(props) {
                 ))}
                 <tr>
                   <td css={total}>Total:</td>
-                  <td></td>
+                  <td>{props.numberofItems}</td>
                   <td></td>
                   <td>{props.total} €</td>
                   <td>
