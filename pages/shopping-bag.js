@@ -5,6 +5,9 @@ import Layout from '../components/Layout';
 import { jsx, css } from '@emotion/core';
 // import { shoes } from '../database';
 import nextCookies from 'next-cookies';
+import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
+
 
 
 
@@ -44,11 +47,52 @@ const tinyImg = css`
   height: 60px;
 `;
 
-const total = css`
+const totalAmount = css`
 font-weight: bold;
 `;
 
 export default function CheckOut(props) {
+
+  console.log(props.shoppingBag)
+
+  //set state for shoppingBag array
+  const [shoppingBag, setShoppingBag] = useState(props.shoppingBag);
+
+  //set state for numberofItems array
+  const [numberofItems, setNumberofItems] = useState(props.numberofItems);
+  //set state for total price array
+  const [total, setTotal] = useState (props.total);
+
+  //set cookie for shopping bag
+  useEffect(() => {
+    Cookies.set('shoppingBag', shoppingBag);
+  }, [shoppingBag]);
+
+  //set cookie with number of shopping bag items
+  useEffect(() => {
+    Cookies.set('numberofItems', numberofItems);
+  }, [numberofItems]);
+
+   //set cookie with prices
+   useEffect(() => {
+    Cookies.set('total', total);
+  }, [total]);
+
+  const handleDelete = (name, price) => {
+    const nametoRemove = name;
+
+    const filteredshoppingBag = props.shoppingBag.filter((item) => item.name !== nametoRemove);
+
+   setShoppingBag(filteredshoppingBag);
+   
+   setNumberofItems(filteredshoppingBag.length);
+
+  //  const newTotal = total.concat(price);
+
+    setTotal(newTotal);
+
+  }
+     
 
   if (props.shoppingBag && props.total) {
 
@@ -64,7 +108,7 @@ export default function CheckOut(props) {
             <table>
               <tbody>
                 <tr>
-                  <td css={white} colSpan="5">
+                  <td css={white} colSpan="6">
                     <h1 css={title}>Your Shopping Bag</h1>
                   </td>
                 </tr>
@@ -74,7 +118,7 @@ export default function CheckOut(props) {
                   <th>Item</th>
                   <th>Size</th>
                   <th>Prize</th>
-                  <th></th>
+                  <th>Options</th>
                 </tr>
                 {props.shoppingBag.map((shoe) => (
                   <tr key={shoe.name}>
@@ -85,14 +129,23 @@ export default function CheckOut(props) {
                     <td>{shoe.name}</td>
                     <td>{shoe.size}</td>
                     <td>{shoe.price} €</td>
-                    <td></td>
+                    <td>
+                      <button 
+                      onClick={(item) =>
+                      handleDelete(shoe.name, shoe.price) 
+                    }
+                    >Delete
+                    </button>
+                    </td>
                   </tr>
                 ))}
-                <tr>
-                  <td css={total}>Total:</td>
+                <tr css={totalAmount}>
+                  <td >Total:</td>
                   <td>{props.numberofItems}</td>
                   <td></td>
+                  <td></td>
                   <td>{props.total} €</td>
+
                   <td>
                     <Link href={`/check-out`}>
                       <button>Pay now</button>
@@ -133,6 +186,8 @@ export function getServerSideProps(context) {
   const shoppingBag = allCookies.shoppingBag || [];
 
   let totalString = allCookies.total || [0,0];
+
+  console.log(totalString)
  
   totalString = totalString.map(function (x) { 
     return parseInt(x, 10); 
