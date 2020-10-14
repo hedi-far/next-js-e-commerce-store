@@ -7,8 +7,6 @@ import { jsx } from '@emotion/core';
 
 export default function Layout(props) {
 
-  console.log (props.numberofItems)
- 
   return (
     <>
       <Head>

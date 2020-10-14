@@ -40,7 +40,7 @@ export default function CheckOut(props) {
           <title>Check-out</title>
         </Head>
         <h1 css={title}>Pay now</h1>
-        <h1 css={title}>Total amount: {props.total} € </h1>
+        <h1 css={title}>Total amount: {props.totalSum} € </h1>
         <main css={container}>
           <form css={form}>
             <h3> Billing Address</h3>
@@ -141,24 +141,25 @@ export function getServerSideProps(context) {
 
   //comes from next-cookie
   const allCookies = nextCookies(context);
+  const totalSum = allCookies.totalSum || 0;
   
   
-  let totalString = allCookies.total 
-  totalString = totalString.map(function (x) { 
-    return parseInt(x, 10); 
-  });
-  const totalArray = totalString.reduce(function (accumulator, currentValue) {
-    return accumulator + currentValue;
-  }, 0); 
+  // let totalString = allCookies.total 
+  // totalString = totalString.map(function (x) { 
+  //   return parseInt(x, 10); 
+  // });
+  // const totalArray = totalString.reduce(function (accumulator, currentValue) {
+  //   return accumulator + currentValue;
+  // }, 0); 
 
-  const total = totalArray || [];
+  // const total = totalArray || [];
   const numberofItems = allCookies.numberofItems || 0;
 
   
   return {
     props: { 
             
-            total,
+            totalSum,
             numberofItems, },
   };
 };

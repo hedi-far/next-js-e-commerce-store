@@ -52,9 +52,7 @@ export default function Header(props) {
    numberofItems = false;
   }
 
-  console.log(typeof props.numberofItems)
-  console.log(typeof "0")
- 
+   
 return (
     <header css={header}>
       <Link href="/">

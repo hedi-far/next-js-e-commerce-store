@@ -61,10 +61,10 @@ export default function ShoppingCart(props) {
 
 export async function getServerSideProps(context) {
 
-  // dynamic import, import shoes from databse
+// dynamic import, import ALL shoes from databse
 const { getShoes } = await import ('../../util/database')
 const shoes = await getShoes();
-// console.log(shoes);
+
 
 const allCookies = nextCookies(context);
   const numberofItems = allCookies.numberofItems || 0;

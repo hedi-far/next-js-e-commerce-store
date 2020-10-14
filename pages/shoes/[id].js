@@ -41,14 +41,18 @@ font-size: 48px;
 
 export default function Shoe(props) {
 
-  // console.log(shoes)
- 
+   
   //set state for shoppingBag array
   const [shoppingBag, setShoppingBag] = useState(props.shoppingBag);
+  
   //set state for numberofItems array
   const [numberofItems, setNumberofItems] = useState(props.numberofItems);
-  //set state for total price array
-  const [total, setTotal] = useState (props.total);
+  
+  // //set state for price array
+  // const [totalArray, setTotalArray] = useState (props.totalArray);
+
+  //set state for sum array
+  let [totalSum, setTotalSum] = useState (props.totalSum);
 
   //set cookie for shopping bag
   useEffect(() => {
@@ -60,40 +64,47 @@ export default function Shoe(props) {
     Cookies.set('numberofItems', numberofItems);
   }, [numberofItems]);
 
-   //set cookie with prices
-   useEffect(() => {
-    Cookies.set('total', total);
-  }, [total]);
+//  //set cookie with prices
+//  useEffect(() => {
+//   Cookies.set('totalArray', totalArray);
+// }, [totalArray]);
+
+ //set cookie with prices
+ useEffect(() => {
+  Cookies.set('totalSum', totalSum);
+}, [totalSum]);
 
   //When 'Add to bag' button is clicked:
   const handleAddtoBag = (name, image, size, price) => {
     //creating new array newshoppingBag by adding incoming values to array "shoppingBag" (=inital state)
     const newShoppingBag = shoppingBag.concat({ name, image, size, price });
 
+    // adds an incrementing id to each object
+    newShoppingBag.forEach((o, i) => (o.id = i + 1)); 
+
     setShoppingBag(newShoppingBag);
 
     //number of Items in the shopping bag
     setNumberofItems(newShoppingBag.length);
 
-    const newTotal = total.concat(price);
+    // const newTotalArray = totalArray.concat({price});
 
-    setTotal(newTotal);
+    // setTotalArray(newTotalArray);
 
-   
-    
+    //   const newTotalSum = newTotalArray.reduce(function (accumulator, currentValue) {
+    //   return accumulator + currentValue;
+    // }, 0); 
+
+          
+     const newTotalSum =newShoppingBag.reduce(function(prev, cur) {
+      return prev + cur.price;
+    }, 0);
+
+    setTotalSum(newTotalSum);
+              
   };
 
-  // const shoe = props.shoe.find((currentShoe) => {
-  //   if (currentShoe.id === props.shoe.id) {
-  //     return true;
-  //   }
-
-  //   return false;
-  // });
-  // console.log(props.id)
-  // console.log(props.shoe[0].name)
-
-  return (
+    return (
     <Layout numberofItems={numberofItems} >
       <Head>
         <title>{props.shoe[0].name}</title>
@@ -124,6 +135,7 @@ export default function Shoe(props) {
   );
 }
 
+
 //This is run by Next.js BEFORE the component above
 //is run, and passes in the props - all of this is inside the server!
 //This does not show up in the browser
@@ -134,47 +146,21 @@ export async function getServerSideProps(context) {
 
   const shoppingBag = allCookies.shoppingBag || [];
   const numberofItems = allCookies.numberofItems || 0;
-  const total = allCookies.total || [];
-  
+  // const totalArray = allCookies.totalArray || [];
+  const totalSum = allCookies.totalSum || 0;
 
-  // console.log(total)
-
-  // dynamic import, import shoes from databse
+   
+// dynamic import, imports single shoe from databse
 const { getShoeById }  =  await import ('../../util/database')
 const id = parseInt(context.query.id)
-// const id = context.query.id;
 const shoe = await getShoeById(id);
 
-// console.log(typeof id);
-// console.log(shoe);
-
-
-// let modulePath = prompt("Which module to load?");
-// import(modulePath)
-//   .then(obj => <module object>)
-//   .catch(err => <loading error, e.g. if no such module>)
-      
-  // //cookieString: "shoppingBag=[{%22name%22:%22Black%20Pumps%22%2C%22image%22:%22/images/pumps_black.jpg%22%2C%22size%22:%2241%22%2C%22price%22:%2227%22}]; numberofItems=1"
-  // const cookieString = JSON.stringify(context.req.headers.cookie);
-  
-  // //returns the index of ] in respective cookieString
-  // const index = cookieString.lastIndexof(']');
-
-  // let shoppingBag = cookieString.substring(0, index);// shorten cookieString after ] and returns substring from index 0]'
-    
-  // shoppingBag = shoppingBag.split('shoppingBag=[', ']') || []; //splits substring after '[' and before ']';
-    
-  // const numberofItems = context.req.headers.cookie.split(';', 'numberofItems=')|| 0 ;
-
-      
-// console.log(typeof cookieString);
-// // console.log(index);
-
-  return {
+return {
     props: { id, 
             shoppingBag, 
             numberofItems,
-            total,
-            shoe },
+            // totalArray,
+            shoe,
+            totalSum },
   };
 }

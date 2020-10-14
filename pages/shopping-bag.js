@@ -53,16 +53,19 @@ font-weight: bold;
 
 export default function CheckOut(props) {
 
-  console.log(props.shoppingBag)
-
   //set state for shoppingBag array
   const [shoppingBag, setShoppingBag] = useState(props.shoppingBag);
 
   //set state for numberofItems array
   const [numberofItems, setNumberofItems] = useState(props.numberofItems);
-  //set state for total price array
-  const [total, setTotal] = useState (props.total);
+ 
+  // //set state for price array
+  // const [totalArray, setTotalArray] = useState (props.totalArray);
 
+  //set state for sum array
+  let [totalSum, setTotalSum] = useState (props.totalSum);
+
+  
   //set cookie for shopping bag
   useEffect(() => {
     Cookies.set('shoppingBag', shoppingBag);
@@ -73,28 +76,53 @@ export default function CheckOut(props) {
     Cookies.set('numberofItems', numberofItems);
   }, [numberofItems]);
 
-   //set cookie with prices
-   useEffect(() => {
-    Cookies.set('total', total);
-  }, [total]);
+  //  //set cookie with prices
+  //  useEffect(() => {
+  //   Cookies.set('totalArray', totalArray);
+  // }, [totalArray]);
 
-  const handleDelete = (name, price) => {
-    const nametoRemove = name;
+  //set cookie with prices
+  useEffect(() => {
+    Cookies.set('totalSum', totalSum);
+  }, [totalSum]);
 
-    const filteredshoppingBag = props.shoppingBag.filter((item) => item.name !== nametoRemove);
+  const handleDelete = (id, price) => {
+    
+    const idtoRemove = id;
+
+    const filteredshoppingBag = props.shoppingBag.filter((item) => item.id !== idtoRemove);
 
    setShoppingBag(filteredshoppingBag);
    
    setNumberofItems(filteredshoppingBag.length);
 
-  //  const newTotal = total.concat(price);
+  //  const pricetoRemove = price;
 
-    setTotal(newTotal);
+    // const filteredTotalArray = props.totalArray.filter((item) => item.price !== pricetoRemove);
+
+    // setTotalArray(filteredTotalArray);
+
+    //   const newTotalSum = filteredTotalArray.reduce(function (accumulator, currentValue) {
+    //   return accumulator + currentValue;
+    // }, 0); 
+
+    const newTotalSum = filteredshoppingBag.reduce(function(prev, cur) {
+      return prev + cur.price;
+    }, 0);
+
+    setTotalSum(newTotalSum);
+
+    
+
+    
 
   }
+
+  // console.log(props.totalArray)
+  // console.log(props.totalSum)
      
 
-  if (props.shoppingBag && props.total) {
+  if (props.numberofItems > 0) {
 
   
   return (
@@ -121,7 +149,7 @@ export default function CheckOut(props) {
                   <th>Options</th>
                 </tr>
                 {props.shoppingBag.map((shoe) => (
-                  <tr key={shoe.name}>
+                  <tr key={shoe.id}>
                     <td>
                       <img css={tinyImg} src={`${shoe.image}`} alt="shoe"></img>
                     </td>
@@ -132,7 +160,7 @@ export default function CheckOut(props) {
                     <td>
                       <button 
                       onClick={(item) =>
-                      handleDelete(shoe.name, shoe.price) 
+                      handleDelete(shoe.id, shoe.price) 
                     }
                     >Delete
                     </button>
@@ -144,7 +172,7 @@ export default function CheckOut(props) {
                   <td>{props.numberofItems}</td>
                   <td></td>
                   <td></td>
-                  <td>{props.total} €</td>
+                  <td>{props.totalSum} €</td>
 
                   <td>
                     <Link href={`/check-out`}>
@@ -182,33 +210,21 @@ export function getServerSideProps(context) {
 
   //comes from next-cookie
   const allCookies = nextCookies(context);
+
   const numberofItems = allCookies.numberofItems || 0;
   const shoppingBag = allCookies.shoppingBag || [];
-
-  let totalString = allCookies.total || [0,0];
-
-  console.log(totalString)
+  const totalSum = allCookies.totalSum || 0;
+  const totalArray = allCookies.totalArray || [];
+  
  
-  totalString = totalString.map(function (x) { 
-    return parseInt(x, 10); 
-  });
-  const totalArray = totalString.reduce(function (accumulator, currentValue) {
-    return accumulator + currentValue;
-  }, 0); 
-
-  const total = totalArray;
-
-  // console.log(shoppingBag)
-  // console.log(numberofItems)
-  // console.log(total)
-
-          
+       
 
   return {
     props: {  
             shoppingBag, 
-            total,
-            numberofItems
+            totalArray,
+            numberofItems,
+            totalSum
             },
   };
 }
