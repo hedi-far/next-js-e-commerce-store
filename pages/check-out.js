@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import nextCookies from 'next-cookies';
+import { useState, useEffect } from 'react';
 
 const container = css`
   text-align: left;
@@ -32,6 +33,19 @@ const button = css`
 
 export default function CheckOut(props) {
 
+  // //set state for shoppingBag array
+  // const [shoppingBag, setShoppingBag] = useState(props.shoppingBag);
+
+  const [totalSum, setTotalSum] = useState ();
+
+  useEffect(() =>{
+    const newTotalSum = props.shoppingBag.reduce(function(prev, cur) {
+      return prev + cur.price;
+    }, 0);
+  
+    setTotalSum(newTotalSum) }, [props.shoppingBag]);
+  
+
   
   return (
     <div>
@@ -40,7 +54,7 @@ export default function CheckOut(props) {
           <title>Check-out</title>
         </Head>
         <h1 css={title}>Pay now</h1>
-        <h1 css={title}>Total amount: {props.totalSum} € </h1>
+        <h1 css={title}>Total amount: {totalSum} € </h1>
         <main css={container}>
           <form css={form}>
             <h3> Billing Address</h3>
@@ -141,7 +155,8 @@ export function getServerSideProps(context) {
 
   //comes from next-cookie
   const allCookies = nextCookies(context);
-  const totalSum = allCookies.totalSum || 0;
+  // const totalSum = allCookies.totalSum || 0;
+  const shoppingBag = allCookies.shoppingBag || [];
   
   
   // let totalString = allCookies.total 
@@ -158,8 +173,8 @@ export function getServerSideProps(context) {
   
   return {
     props: { 
-            
-            totalSum,
+            shoppingBag,
+            // totalSum,
             numberofItems, },
   };
 };

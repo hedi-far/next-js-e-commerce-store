@@ -3,13 +3,10 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-// import { shoes } from '../database';
 import nextCookies from 'next-cookies';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-
-
-
+import { mergeItems } from '../util/merge-items';
 
 const white = css`
   background-color: #ffffff !important;
@@ -54,73 +51,57 @@ font-weight: bold;
 export default function CheckOut(props) {
 
   //set state for shoppingBag array
-  const [shoppingBag, setShoppingBag] = useState(props.shoppingBag);
+  const [shoppingBag, setShoppingBag] = useState(props.shoes);
 
-  //set state for numberofItems array
+  //set state for numberofItems in case an item is deleted
   const [numberofItems, setNumberofItems] = useState(props.numberofItems);
- 
-  // //set state for price array
-  // const [totalArray, setTotalArray] = useState (props.totalArray);
 
-  //set state for sum array
-  let [totalSum, setTotalSum] = useState (props.totalSum);
+  //set state of ids of selected shoes in case an item is deleted
+  const [arrayofIds, setArrayofIds] = useState(props.arrayofIds);
+   
+  //set state for sum array in case an item is deleted
+  const [totalSum, setTotalSum] = useState ();
 
   
-  //set cookie for shopping bag
-  useEffect(() => {
-    Cookies.set('shoppingBag', shoppingBag);
-  }, [shoppingBag]);
-
-  //set cookie with number of shopping bag items
+  //set cookie with number of shopping bag items in case an item is deleted
   useEffect(() => {
     Cookies.set('numberofItems', numberofItems);
   }, [numberofItems]);
 
-  //  //set cookie with prices
-  //  useEffect(() => {
-  //   Cookies.set('totalArray', totalArray);
-  // }, [totalArray]);
-
-  //set cookie with prices
+   //find in ALL shoes which ids are in array of ids > 
   useEffect(() => {
-    Cookies.set('totalSum', totalSum);
-  }, [totalSum]);
-
-  const handleDelete = (id, price) => {
+      setShoppingBag(
+      mergeItems(props.shoes, props.arrayofIds),
+    );
+      }, [arrayofIds]);
     
-    const idtoRemove = id;
+    //shoppingBagId is added to each item
+    shoppingBag.forEach((o, i) => (o.shoppingBagId = i + 1)); 
+           
+    console.log(shoppingBag)
+  
+    //calculate sum of items in shoppingBag
+  useEffect(() =>{
+  const newTotalSum = shoppingBag.reduce(function(prev, cur) {
+    return prev + cur.price;
+  }, 0);
 
-    const filteredshoppingBag = props.shoppingBag.filter((item) => item.id !== idtoRemove);
+  setTotalSum(newTotalSum) }, [shoppingBag]);
+
+//delete function
+  const handleDelete = (shoppingBagId) => {
+    
+    const idtoRemove = shoppingBagId;
+
+    const filteredshoppingBag = props.shoppingBag.filter((item) => item.shoppingBagId !== idtoRemove);
 
    setShoppingBag(filteredshoppingBag);
    
    setNumberofItems(filteredshoppingBag.length);
-
-  //  const pricetoRemove = price;
-
-    // const filteredTotalArray = props.totalArray.filter((item) => item.price !== pricetoRemove);
-
-    // setTotalArray(filteredTotalArray);
-
-    //   const newTotalSum = filteredTotalArray.reduce(function (accumulator, currentValue) {
-    //   return accumulator + currentValue;
-    // }, 0); 
-
-    const newTotalSum = filteredshoppingBag.reduce(function(prev, cur) {
-      return prev + cur.price;
-    }, 0);
-
-    setTotalSum(newTotalSum);
-
-    
-
     
 
   }
 
-  // console.log(props.totalArray)
-  // console.log(props.totalSum)
-     
 
   if (props.numberofItems > 0) {
 
@@ -148,8 +129,8 @@ export default function CheckOut(props) {
                   <th>Prize</th>
                   <th>Options</th>
                 </tr>
-                {props.shoppingBag.map((shoe) => (
-                  <tr key={shoe.id}>
+                {shoppingBag.map((shoe) => (
+                  <tr key={shoe.shoppingBagId}>
                     <td>
                       <img css={tinyImg} src={`${shoe.image}`} alt="shoe"></img>
                     </td>
@@ -160,7 +141,7 @@ export default function CheckOut(props) {
                     <td>
                       <button 
                       onClick={(item) =>
-                      handleDelete(shoe.id, shoe.price) 
+                      handleDelete(shoe.shoppingBagId) 
                     }
                     >Delete
                     </button>
@@ -172,7 +153,7 @@ export default function CheckOut(props) {
                   <td>{props.numberofItems}</td>
                   <td></td>
                   <td></td>
-                  <td>{props.totalSum} €</td>
+                  <td>{totalSum} €</td>
 
                   <td>
                     <Link href={`/check-out`}>
@@ -206,25 +187,25 @@ export default function CheckOut(props) {
                 }             
 }; 
 
-export function getServerSideProps(context) {
+export async function getServerSideProps(context) {
 
   //comes from next-cookie
   const allCookies = nextCookies(context);
 
   const numberofItems = allCookies.numberofItems || 0;
-  const shoppingBag = allCookies.shoppingBag || [];
-  const totalSum = allCookies.totalSum || 0;
-  const totalArray = allCookies.totalArray || [];
-  
- 
-       
+  const arrayofIds = allCookies.arrayofIds || [];
+
+  // dynamic import, imports all shoes from databse
+const { getShoes }  =  await import ('../util/database')
+// const id = parseInt(context.query.id)
+const shoes = await getShoes();
+   
 
   return {
     props: {  
-            shoppingBag, 
-            totalArray,
-            numberofItems,
-            totalSum
+      arrayofIds,
+      numberofItems,
+      shoes
             },
   };
 }

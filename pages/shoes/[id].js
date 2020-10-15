@@ -1,12 +1,11 @@
-// import { shoes } from '../../util/database';
 import Layout from '../../components/Layout';
 import Head from 'next/head';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-// import Button from '../../components/Button';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import nextCookies from 'next-cookies';
+// import Shoes from '.';
 
 const img = css`
   width: 700px;
@@ -41,70 +40,38 @@ font-size: 48px;
 
 export default function Shoe(props) {
 
-   
-  //set state for shoppingBag array
-  const [shoppingBag, setShoppingBag] = useState(props.shoppingBag);
+  //set state of ids of selected shoes
+  const [arrayofIds, setArrayofIds] = useState(props.arrayofIds);
   
   //set state for numberofItems array
   const [numberofItems, setNumberofItems] = useState(props.numberofItems);
   
-  // //set state for price array
-  // const [totalArray, setTotalArray] = useState (props.totalArray);
-
-  //set state for sum array
-  let [totalSum, setTotalSum] = useState (props.totalSum);
-
-  //set cookie for shopping bag
-  useEffect(() => {
-    Cookies.set('shoppingBag', shoppingBag);
-  }, [shoppingBag]);
-
   //set cookie with number of shopping bag items
   useEffect(() => {
     Cookies.set('numberofItems', numberofItems);
   }, [numberofItems]);
 
-//  //set cookie with prices
-//  useEffect(() => {
-//   Cookies.set('totalArray', totalArray);
-// }, [totalArray]);
-
- //set cookie with prices
- useEffect(() => {
-  Cookies.set('totalSum', totalSum);
-}, [totalSum]);
+  useEffect(() => {
+    Cookies.set('arrayofIds', arrayofIds);
+  }, [arrayofIds]);
 
   //When 'Add to bag' button is clicked:
-  const handleAddtoBag = (name, image, size, price) => {
-    //creating new array newshoppingBag by adding incoming values to array "shoppingBag" (=inital state)
-    const newShoppingBag = shoppingBag.concat({ name, image, size, price });
+  const handleAddtoBag = (id) => {
 
-    // adds an incrementing id to each object
-    newShoppingBag.forEach((o, i) => (o.id = i + 1)); 
+    const newArrayofIds = arrayofIds.concat(id);
 
-    setShoppingBag(newShoppingBag);
+    setArrayofIds(newArrayofIds);
 
-    //number of Items in the shopping bag
-    setNumberofItems(newShoppingBag.length);
-
-    // const newTotalArray = totalArray.concat({price});
-
-    // setTotalArray(newTotalArray);
-
-    //   const newTotalSum = newTotalArray.reduce(function (accumulator, currentValue) {
-    //   return accumulator + currentValue;
-    // }, 0); 
-
+    
+    //set number of Items in the shopping bag
+    setNumberofItems(newArrayofIds.length);
           
-     const newTotalSum =newShoppingBag.reduce(function(prev, cur) {
-      return prev + cur.price;
-    }, 0);
-
-    setTotalSum(newTotalSum);
-              
+             
   };
 
-    return (
+  
+
+  return (
     <Layout numberofItems={numberofItems} >
       <Head>
         <title>{props.shoe[0].name}</title>
@@ -118,13 +85,14 @@ export default function Shoe(props) {
           <p>
             <li css={description}>{props.shoe[0].description}</li>
           </p>
+          <li>Article-Nr. {props.shoe[0].id}</li><br />
           <li css={info2}>Size: {props.shoe[0].size}</li>
           <li css={info2}>Price: {props.shoe[0].price}€</li>
           <br />
 
           <button
             onClick={(item) =>
-              handleAddtoBag(props.shoe[0].name, props.shoe[0].image, props.shoe[0].size, props.shoe[0].price)
+              handleAddtoBag(props.shoe[0].id)
             }
           >
             Add to bag
@@ -136,18 +104,12 @@ export default function Shoe(props) {
 }
 
 
-//This is run by Next.js BEFORE the component above
-//is run, and passes in the props - all of this is inside the server!
-//This does not show up in the browser
+
 export async function getServerSideProps(context) {
 
-  //comes from next-cookie
   const allCookies = nextCookies(context);
-
-  const shoppingBag = allCookies.shoppingBag || [];
   const numberofItems = allCookies.numberofItems || 0;
-  // const totalArray = allCookies.totalArray || [];
-  const totalSum = allCookies.totalSum || 0;
+  const arrayofIds = allCookies.arrayofIds || [];
 
    
 // dynamic import, imports single shoe from databse
@@ -156,11 +118,11 @@ const id = parseInt(context.query.id)
 const shoe = await getShoeById(id);
 
 return {
-    props: { id, 
-            shoppingBag, 
+    props: { 
+            arrayofIds,
+            id, 
             numberofItems,
-            // totalArray,
-            shoe,
-            totalSum },
-  };
+            shoe
+            }
 }
+};
