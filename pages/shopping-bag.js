@@ -7,6 +7,7 @@ import nextCookies from 'next-cookies';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { mergeItems } from '../util/merge-items';
+import { Sum } from '../components/sum';
 
 const white = css`
   background-color: #ffffff !important;
@@ -47,6 +48,20 @@ const tinyImg = css`
 const totalAmount = css`
   font-weight: bold;
 `;
+const smallbutton = css`
+  box-shadow: inset 0px 1px 0px 0px #ffffff;
+  background: linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+  background-color: #ededed;
+  border-radius: 9px;
+  border: 2px solid #dcdcdc;
+  display: inline-block;
+  cursor: pointer;
+  color: #777777;
+  font-size: 8x;
+  padding: 3px 6px;
+  text-decoration: none;
+  text-shadow: 0px -1px 0px #ffffff;
+`;
 
 export default function CheckOut(props) {
   //set state for shoppingBag array
@@ -56,15 +71,15 @@ export default function CheckOut(props) {
     ),
   );
 
-  //set state for sum array in case an item is deleted
-  const [totalSum, setTotalSum] = useState(
-    shoppingBag.reduce(function (prev, cur) {
-      return prev + cur.price;
-    }, 0),
-  );
+  // //set state for sum array in case an item is deleted
+  // export const [totalSum, setTotalSum] = useState(
+  //   shoppingBag.reduce(function (prev, cur) {
+  //     return prev + cur.price;
+  //   }, 0),
+  // );
 
-  //shoppingBagId is added to each item
-  shoppingBag.forEach((o, i) => (o.shoppingBagId = i + 1));
+  // //shoppingBagId is added to each item
+  // shoppingBag.forEach((o, i) => (o.shoppingBagId = i + 1));
 
   //set state for numberofItems in case an item is deleted
   const [numberofItems, setNumberofItems] = useState(props.numberofItems);
@@ -82,20 +97,43 @@ export default function CheckOut(props) {
     Cookies.set('arrayofIds', arrayofIds);
   }, [arrayofIds]);
 
+  const calculatedPrice = (shoePrice, shoeAmount) => {
+    return shoePrice * shoeAmount;
+  };
+
   //delete function
-  const handleDelete = (id, amount) => {
+  const handleDelete = (id) => {
     const idtoRemove = id;
+
+    const filteredArrayofIds = arrayofIds.filter(
+      (item) => item.id === idtoRemove,
+    );
+
+    setArrayofIds(filteredArrayofIds);
+
+    setNumberofItems(filteredArrayofIds.length);
+  };
+
+  const handleIncrease = (id) => {
+    const newArrayofIds = arrayofIds.concat(id);
+
+    setArrayofIds(newArrayofIds);
+
+    //set number of Items in the shopping bag
+    setNumberofItems(newArrayofIds.length);
+  };
+
+  let handleDecrease = (id, amount) => {
+    // Die Methode findIndex() gibt den Index des ersten Elements im Array zurück, das die bereitgestellte Testfunktion erfüllt.
+
     if (amount === 1) {
-      const filteredArrayofIds = arrayofIds.filter(
-        (item) => item.id === idtoRemove,
-      );
-
-      setArrayofIds(filteredArrayofIds);
-
-      setNumberofItems(filteredArrayofIds.length);
+      handleDecrease = handleDelete(id);
     } else {
-      // Die Methode findIndex() gibt den Index des ersten Elements im Array zurück, das die bereitgestellte Testfunktion erfüllt.
-      const indexOfId = arrayofIds.findIndex(idtoRemove);
+      const idtoRemove = id;
+
+      const indexOfId = (element) => element - idtoRemove;
+
+      arrayofIds.findIndex(indexOfId);
 
       const filteredArrayofIds = arrayofIds.splice(indexOfId, 1);
 
@@ -130,7 +168,7 @@ export default function CheckOut(props) {
                     <th>Options</th>
                   </tr>
                   {shoppingBag.map((shoe) => (
-                    <tr key={shoe.shoppingBagId}>
+                    <tr key={shoe.id}>
                       <td>
                         <img
                           css={tinyImg}
@@ -138,20 +176,30 @@ export default function CheckOut(props) {
                           alt="shoe"
                         ></img>
                       </td>
-                      <td>{shoe.amount}</td>
-                      <td>{shoe.name}</td>
-                      <td>{shoe.size}</td>
-                      <td>{shoe.price} €</td>
                       <td>
                         <button
+                          css={smallbutton}
+                          onClick={(item) => handleIncrease(shoe.id)}
+                        >
+                          {' '}
+                          +
+                        </button>{' '}
+                        {shoe.amount}{' '}
+                        <button
+                          css={smallbutton}
                           onClick={(item) =>
-                            handleDelete(
-                              shoe.id,
-                              shoe.amount,
-                              shoe.shoppingBagId,
-                            )
+                            handleDecrease(shoe.id, shoe.amount)
                           }
                         >
+                          {' '}
+                          -{' '}
+                        </button>
+                      </td>
+                      <td>{shoe.name}</td>
+                      <td>{shoe.size}</td>
+                      <td>{calculatedPrice(shoe.price, shoe.amount)}€</td>
+                      <td>
+                        <button onClick={(item) => handleDelete(shoe.id)}>
                           Delete
                         </button>
                       </td>
@@ -162,8 +210,7 @@ export default function CheckOut(props) {
                     <td>{props.numberofItems}</td>
                     <td></td>
                     <td></td>
-                    <td>{totalSum} €</td>
-
+                    <td>{Sum(shoppingBag)} €</td>
                     <td>
                       <Link href={`/check-out`}>
                         <button>Pay now</button>

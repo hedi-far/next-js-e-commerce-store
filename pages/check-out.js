@@ -5,6 +5,7 @@ import Layout from '../components/Layout';
 import { jsx, css } from '@emotion/core';
 import nextCookies from 'next-cookies';
 import { useState, useEffect } from 'react';
+import { Sum } from '../components/sum';
 
 const container = css`
   text-align: left;
@@ -32,29 +33,26 @@ const button = css`
 `;
 
 export default function CheckOut(props) {
-
   // //set state for shoppingBag array
   // const [shoppingBag, setShoppingBag] = useState(props.shoppingBag);
 
-  const [totalSum, setTotalSum] = useState ();
+  // const [totalSum, setTotalSum] = useState ();
 
-  useEffect(() =>{
-    const newTotalSum = props.shoppingBag.reduce(function(prev, cur) {
-      return prev + cur.price;
-    }, 0);
-  
-    setTotalSum(newTotalSum) }, [props.shoppingBag]);
-  
+  // useEffect(() =>{
+  //   const newTotalSum = props.shoppingBag.reduce(function(prev, cur) {
+  //     return prev + cur.price;
+  //   }, 0);
 
-  
+  //   setTotalSum(newTotalSum) }, [props.shoppingBag]);
+
   return (
     <div>
-     <Layout numberofItems={props.numberofItems}>
+      <Layout numberofItems={props.numberofItems}>
         <Head>
           <title>Check-out</title>
         </Head>
         <h1 css={title}>Pay now</h1>
-        <h1 css={title}>Total amount: {totalSum} € </h1>
+        <h1 css={title}>Total amount: {Sum} € </h1>
         <main css={container}>
           <form css={form}>
             <h3> Billing Address</h3>
@@ -152,29 +150,27 @@ export default function CheckOut(props) {
 }
 
 export function getServerSideProps(context) {
-
   //comes from next-cookie
   const allCookies = nextCookies(context);
   // const totalSum = allCookies.totalSum || 0;
   const shoppingBag = allCookies.shoppingBag || [];
-  
-  
-  // let totalString = allCookies.total 
-  // totalString = totalString.map(function (x) { 
-  //   return parseInt(x, 10); 
+
+  // let totalString = allCookies.total
+  // totalString = totalString.map(function (x) {
+  //   return parseInt(x, 10);
   // });
   // const totalArray = totalString.reduce(function (accumulator, currentValue) {
   //   return accumulator + currentValue;
-  // }, 0); 
+  // }, 0);
 
   // const total = totalArray || [];
   const numberofItems = allCookies.numberofItems || 0;
 
-  
   return {
-    props: { 
-            shoppingBag,
-            // totalSum,
-            numberofItems, },
+    props: {
+      shoppingBag,
+      // totalSum,
+      numberofItems,
+    },
   };
-};
+}
