@@ -21,13 +21,12 @@ const container = css`
 `;
 
 export default function ThankYou() {
-  
-  const numberofItems = Cookies.remove('numberofItems', { path: './thank-you' })
-  const shoppingBag = Cookies.remove('shoppingBag', { path: './thank-you' })
-  const totalSum = Cookies.remove('totalSum', { path: './thank-you' })
-  const totalArray = Cookies.remove('totalArray', { path: './thank-you' })
-  
-   return (
+  const numberofItems = Cookies.remove('numberofItems', {
+    path: './thank-you',
+  });
+  const arrayofIds = Cookies.remove('arrayofIds', { path: './thank-you' });
+
+  return (
     <div>
       <Layout>
         <Head>
