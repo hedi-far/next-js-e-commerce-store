@@ -9,3 +9,6 @@ export function mergeItems(shoes, arrayofIds) {
     };
   });
 }
+
+//merges the info about the individual shoe from the database with the array of ids (=shoes selected by user, inBag = true) and
+// calculates the amount based on the same array. Returns ALL shoes from database with inBag true or false. >> final-bag.js

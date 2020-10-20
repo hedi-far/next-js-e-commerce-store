@@ -6,8 +6,8 @@ import { jsx, css } from '@emotion/core';
 import nextCookies from 'next-cookies';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { mergeItems } from '../util/merge-items';
-import TotalSum from '../components/TotalSum';
+import { finalBag } from '../util/final-bag';
+import { total } from '../util/total-sum';
 
 const white = css`
   background-color: #ffffff !important;
@@ -17,7 +17,12 @@ const emptytitle = css`
   display: flex;
   justify-content: center;
   margin-bottom: 300px;
-  margin-top: 200px;
+  margin-top: 210px;
+  margin-left: 50px;
+`;
+
+const backhome = css`
+  margin-left: 10px;
 `;
 
 const title = css`
@@ -33,16 +38,10 @@ const container = css`
   margin-bottom: 250px;
 `;
 
-const img = css`
-  width: 340px;
-  height: 500px;
-  border-radius: 8px;
-  margin-left: 30px;
-  margin-top: 80px;
-`;
-
 const tinyImg = css`
   height: 60px;
+  border-radius: 20%;
+  cursor: pointer;
 `;
 
 const totalAmount = css`
@@ -63,24 +62,22 @@ const smallbutton = css`
   text-shadow: 0px -1px 0px #ffffff;
 `;
 
+const shopmore = css`
+  margin-left: 220px;
+`;
+
 export default function CheckOut(props) {
   //set state for shoppingBag array
   const [shoppingBag, setShoppingBag] = useState(
-    mergeItems(props.shoes, props.arrayofIds).filter(
-      (item) => item.inBag === true,
-    ),
+    finalBag(props.shoes, props.arrayofIds),
   );
 
-  //calculate price of each item based on amount
+  //calculate price of each item based on amount to display in shopping bag
   const calculatedPrice = (shoePrice, shoeAmount) => {
     return shoePrice * shoeAmount;
   };
   //set state for total sum
-  const [totalSum, setTotalSum] = useState(
-    shoppingBag.reduce(function (prev, cur) {
-      return prev + cur.price * cur.amount;
-    }, 0),
-  );
+  const [totalSum, setTotalSum] = useState(total(shoppingBag));
 
   //set state for numberofItems - displayed on shopping bag icon
   const [numberofItems, setNumberofItems] = useState(props.numberofItems);
@@ -100,14 +97,10 @@ export default function CheckOut(props) {
 
   //set totalSum on every change in shoppingBag
   useEffect(() => {
-    setTotalSum(
-      shoppingBag.reduce(function (prev, cur) {
-        return prev + cur.price * cur.amount;
-      }, 0),
-    );
+    setTotalSum(total(shoppingBag));
   }, [shoppingBag]);
 
-  //delete function - gives back a new arrayofIds without respective id
+  //delete function - mutates original array
   const handleDelete = (id) => {
     for (let i = 0; i < arrayofIds.length; i++) {
       if (arrayofIds[i] === id) {
@@ -143,8 +136,10 @@ export default function CheckOut(props) {
     //find first occurence of id in array of ids
     const indexOfId = arrayofIds.indexOf(id);
 
+    //splice returns spliced items!
     const newArrayofIds = arrayofIds.splice(indexOfId, 1);
 
+    //this is why we are reusing the original array!
     const decreasedArrayofIds = arrayofIds;
 
     setArrayofIds(decreasedArrayofIds);
@@ -170,7 +165,7 @@ export default function CheckOut(props) {
                       <h1 css={title}>Your Shopping Bag</h1>
                     </td>
                   </tr>
-                  <tr>
+                  <tr css={white}>
                     <th></th>
                     <th>Quantity</th>
                     <th>Item</th>
@@ -181,11 +176,13 @@ export default function CheckOut(props) {
                   {shoppingBag.map((shoe) => (
                     <tr key={shoe.id}>
                       <td>
-                        <img
-                          css={tinyImg}
-                          src={`${shoe.image}`}
-                          alt="shoe"
-                        ></img>
+                        <Link href={`/shoes/${shoe.id}`}>
+                          <img
+                            css={tinyImg}
+                            src={`${shoe.image}`}
+                            alt="shoe"
+                          ></img>
+                        </Link>
                       </td>
                       <td>
                         <button
@@ -219,12 +216,17 @@ export default function CheckOut(props) {
                     <td>{props.numberofItems}</td>
                     <td></td>
                     <td></td>
-                    <td>
-                      <TotalSum totalSum={totalSum} />
-                    </td>
+                    <td>{totalSum} €</td>
                     <td>
                       <Link href={`/check-out`}>
                         <button>Pay now</button>
+                      </Link>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td css={white} colSpan="6">
+                      <Link href={`/all-products`}>
+                        <button css={shopmore}>Shop more</button>
                       </Link>
                     </td>
                   </tr>
@@ -244,7 +246,12 @@ export default function CheckOut(props) {
           </Head>
           <main>
             <div css={container}>
-              <h1 css={emptytitle}>Your Shopping Bag is empty!</h1>
+              <h1 css={emptytitle}>
+                Your Shopping Bag is empty!
+                <Link href="/shoes/product-list">
+                  <button css={backhome}>Back to shop</button>
+                </Link>
+              </h1>
             </div>
           </main>
         </Layout>

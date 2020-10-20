@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
@@ -33,7 +32,6 @@ export default function Home(props) {
         </Head>
         <main>
           <h1 css={intro}>Welcome to The Random Shoe Outlet!</h1>
-
           <div css={gallery}>
             <img
               css={galleryItem}
@@ -57,15 +55,13 @@ export default function Home(props) {
   );
 }
 
-
 export async function getServerSideProps(context) {
-
   const allCookies = nextCookies(context);
   const numberofItems = allCookies.numberofItems || 0;
-   
+
   return {
-    props: {              
-            numberofItems,
-             },
+    props: {
+      numberofItems,
+    },
   };
 }

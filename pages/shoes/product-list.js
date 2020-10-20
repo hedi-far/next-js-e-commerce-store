@@ -18,11 +18,9 @@ const product = css`
   cursor: pointer;
 
   &:hover {
-     {
-      -moz-box-shadow: 0 0 20px #666666;
-      -webkit-box-shadow: 0 0 20px #666666;
-      box-shadow: 0 0 20px #666666;
-    }
+    -moz-box-shadow: 0 0 20px #666666;
+    -webkit-box-shadow: 0 0 20px #666666;
+    box-shadow: 0 0 20px #666666;
   }
 `;
 
@@ -60,19 +58,19 @@ export default function ShoppingCart(props) {
 }
 
 export async function getServerSideProps(context) {
+  // dynamic import, import ALL shoes from databse
+  const { getShoes } = await import('../../util/database');
+  const shoes = await getShoes();
 
-// dynamic import, import ALL shoes from databse
-const { getShoes } = await import ('../../util/database')
-const shoes = await getShoes();
-
-
-const allCookies = nextCookies(context);
+  //get Cookies from server
+  const allCookies = nextCookies(context);
+  //displays number of items in shopping cart
   const numberofItems = allCookies.numberofItems || 0;
 
-return {
-  props: {  
-          shoes,
-          numberofItems
-          },
-};
+  return {
+    props: {
+      shoes,
+      numberofItems,
+    },
+  };
 }

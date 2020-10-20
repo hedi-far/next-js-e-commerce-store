@@ -5,6 +5,7 @@ import { jsx, css } from '@emotion/core';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import nextCookies from 'next-cookies';
+import Link from 'next/link';
 
 const img = css`
   width: 700px;
@@ -24,8 +25,9 @@ const description = css`
 `;
 
 const info2 = css`
-font-size: 22px !important;
-&shoeInfo 
+  shoeInfo & {
+    font-size: 22px !important;
+  }
 `;
 
 const ul = css`
@@ -33,8 +35,13 @@ const ul = css`
 `;
 
 const shoename = css`
-font-size: 48px;
-&ul
+  ul & {
+    font-size: 48px;
+  }
+`;
+
+const spacearound = css`
+  margin: 10px;
 `;
 
 export default function Shoe(props) {
@@ -49,6 +56,7 @@ export default function Shoe(props) {
     Cookies.set('numberofItems', numberofItems);
   }, [numberofItems]);
 
+  //set cookie with ids of selected shoes
   useEffect(() => {
     Cookies.set('arrayofIds', arrayofIds);
   }, [arrayofIds]);
@@ -85,6 +93,12 @@ export default function Shoe(props) {
           <button onClick={(item) => handleAddtoBag(props.shoe[0].id)}>
             Add to bag
           </button>
+          <Link href="/shoes/product-list">
+            <button css={spacearound}>Shop more</button>
+          </Link>
+          <Link href="/shopping-bag">
+            <button>Go to bag</button>
+          </Link>
         </ul>
       </div>
     </Layout>

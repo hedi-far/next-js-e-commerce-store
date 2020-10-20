@@ -1,12 +1,10 @@
 import Head from 'next/head';
-// import Link from 'next/link';
 import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import nextCookies from 'next-cookies';
-// import { useState, useEffect } from 'react';
-// import { Sum } from '../components/sum';
-import TotalSum from '../components/TotalSum';
+import { total } from '../util/total-sum';
+import { finalBag } from '../util/final-bag';
 
 const container = css`
   text-align: left;
@@ -45,14 +43,18 @@ const input = css`
 `;
 
 export default function CheckOut(props) {
+  const shoppingBag = finalBag(props.shoes, props.arrayofIds);
+  const totalSum = total(shoppingBag);
+
   return (
     <div>
       <Layout numberofItems={props.numberofItems}>
         <Head>
           <title>Check-out</title>
         </Head>
-        <h1 css={title}>Pay now</h1>
-        <TotalSum />
+        <h1 css={title}>Pay now </h1>
+        <h1 css={title}> Total: {totalSum} €</h1>
+
         <main>
           <form css={container} action="/thank-you">
             <div css={column}>
@@ -192,28 +194,21 @@ export default function CheckOut(props) {
   );
 }
 
-export function getServerSideProps(context) {
+export async function getServerSideProps(context) {
   //comes from next-cookie
   const allCookies = nextCookies(context);
-  // const totalSum = allCookies.totalSum || 0;
-  const shoppingBag = allCookies.shoppingBag || [];
-
-  // let totalString = allCookies.total
-  // totalString = totalString.map(function (x) {
-  //   return parseInt(x, 10);
-  // });
-  // const totalArray = totalString.reduce(function (accumulator, currentValue) {
-  //   return accumulator + currentValue;
-  // }, 0);
-
-  // const total = totalArray || [];
+  const arrayofIds = allCookies.arrayofIds || [];
   const numberofItems = allCookies.numberofItems || 0;
+
+  // dynamic import, imports all shoes from databse
+  const { getShoes } = await import('../util/database');
+  const shoes = await getShoes();
 
   return {
     props: {
-      shoppingBag,
-      // totalSum,
+      arrayofIds,
       numberofItems,
+      shoes,
     },
   };
 }
