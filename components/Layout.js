@@ -4,15 +4,13 @@ import Footer from './Footer';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 
-
 export default function Layout(props) {
-
   return (
     <>
       <Head>
         <html lang="eng" />
       </Head>
-      <Header numberofItems = {props.numberofItems} />
+      <Header numberofItems={props.numberofItems} />
       <main>{props.children}</main>
       <Footer />
     </>

@@ -3,8 +3,8 @@ export function mergeItems(shoes, arrayofIds) {
     return {
       ...shoe,
       inBag: arrayofIds.includes(shoe.id), //true or false
-      amount: arrayofIds.reduce((acc, elem) => {
-        return arrayofIds.includes(shoe.id) ? acc + 1 : acc;
+      amount: arrayofIds.reduce((counter, id) => {
+        return shoe.id === id ? (counter += 1) : counter;
       }, 0),
     };
   });

@@ -1,11 +1,12 @@
 import Head from 'next/head';
-import Link from 'next/link';
+// import Link from 'next/link';
 import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import nextCookies from 'next-cookies';
-import { useState, useEffect } from 'react';
-import { Sum } from '../components/sum';
+// import { useState, useEffect } from 'react';
+// import { Sum } from '../components/sum';
+import TotalSum from '../components/TotalSum';
 
 const container = css`
   text-align: left;
@@ -18,7 +19,7 @@ const container = css`
   margin-bottom: 120px;
 `;
 
-const form = css`
+const column = css`
   margin-right: 20px;
   width: 400px;
 `;
@@ -28,23 +29,22 @@ const title = css`
 `;
 
 const button = css`
-  display: flex;
-  align-items: flex-end;
+  height: 40px;
+  margin-top: 320px;
+`;
+
+const input = css`
+  &:invalid + span:after {
+    content: '✖';
+    padding-left: 5px;
+  }
+  &:valid + span:after {
+    content: '✓';
+    padding-left: 5px;
+  }
 `;
 
 export default function CheckOut(props) {
-  // //set state for shoppingBag array
-  // const [shoppingBag, setShoppingBag] = useState(props.shoppingBag);
-
-  // const [totalSum, setTotalSum] = useState ();
-
-  // useEffect(() =>{
-  //   const newTotalSum = props.shoppingBag.reduce(function(prev, cur) {
-  //     return prev + cur.price;
-  //   }, 0);
-
-  //   setTotalSum(newTotalSum) }, [props.shoppingBag]);
-
   return (
     <div>
       <Layout numberofItems={props.numberofItems}>
@@ -52,97 +52,140 @@ export default function CheckOut(props) {
           <title>Check-out</title>
         </Head>
         <h1 css={title}>Pay now</h1>
-        <h1 css={title}>Total amount: {Sum} € </h1>
-        <main css={container}>
-          <form css={form}>
-            <h3> Billing Address</h3>
-
-            <label for="fname">Full Name</label>
-            <br />
-            <input
-              type="text"
-              id="fname"
-              name="firstname"
-              placeholder="John M. Doe"
-            />
-            <br />
-            <label for="email">Email</label>
-            <br />
-            <input
-              type="text"
-              id="email"
-              name="email"
-              placeholder="john@example.com"
-            />
-            <br />
-            <label for="adr">Address</label>
-            <br />
-            <input
-              type="text"
-              id="adr"
-              name="address"
-              placeholder="542 W. 15th Street"
-            />
-            <br />
-            <label for="zip">Zip code</label>
-            <br />
-            <input type="text" id="zip" name="zip" placeholder="10001" />
-            <br />
-            <label for="city">City</label>
-            <br />
-            <input type="text" id="city" name="city" placeholder="New York" />
-            <br />
-          </form>
-          <form css={form}>
-            <h3>Payment</h3>
-            <label for="cname">Name on Card</label>
-            <br />
-            <input
-              type="text"
-              id="cname"
-              name="cardname"
-              placeholder="John More Doe"
-            />
-            <br />
-            <label for="ccnum">Credit card number</label>
-            <br />
-            <input
-              type="text"
-              id="ccnum"
-              name="cardnumber"
-              placeholder="1111-2222-3333-4444"
-            />
-            <br />
-            <label for="expmonth">Exp Month</label>
-            <br />
-            <input
-              type="text"
-              id="expmonth"
-              name="expmonth"
-              placeholder="September"
-            />
-            <br />
-
-            <label for="expyear">Exp Year</label>
-            <br />
-            <input type="text" id="expyear" name="expyear" placeholder="2018" />
-            <br />
-
-            <label for="cvv">CVV</label>
-            <br />
-            <input type="text" id="cvv" name="cvv" placeholder="352" />
-            <br />
-            <label>
-              <input type="checkbox" checked="checked" name="sameadr" />
-              Shipping address same as billing address.
+        <TotalSum />
+        <main>
+          <form css={container} action="/thank-you">
+            <div css={column}>
+              <h3> Address (required)</h3>
+              <label htmlFor="fname">Full Name</label>
               <br />
-            </label>
+              <input
+                css={input}
+                type="text"
+                id="fname"
+                name="fullname"
+                placeholder="John M. Doe"
+                required
+              />
+              <span class="validity"></span>
+              <br />
+              <label htmlFor="email">Email</label>
+              <br />
+              <input
+                css={input}
+                type="email"
+                id="email"
+                name="email"
+                placeholder="john@example.com"
+                required
+              />
+              <span class="validity"></span>
+              <br />
+              <label htmlFor="adr">Address</label>
+              <br />
+              <input
+                css={input}
+                type="text"
+                id="adr"
+                name="address"
+                placeholder="542 W. 15th Street"
+                required
+              />
+              <span class="validity"></span>
+              <br />
+              <label htmlFor="zip">Zip code</label>
+              <br />
+              <input
+                css={input}
+                type=""
+                id="zip"
+                name="zip"
+                placeholder="10001"
+                required
+              />
+              <span class="validity"></span>
+              <br />
+              <label htmlFor="city">City</label>
+              <br />
+              <input
+                css={input}
+                type="text"
+                id="city"
+                name="city"
+                placeholder="New York"
+                required
+              />
+              <span class="validity"></span>
+              <br />
+            </div>
+            <div css={column}>
+              <h3>Payment (required)</h3>
+              <label htmlFor="cname">Name on Card</label>
+              <br />
+              <input
+                css={input}
+                type="text"
+                id="cname"
+                name="cardname"
+                placeholder="John More Doe"
+                required
+              />
+              <span class="validity"></span>
+              <br />
+              <label htmlFor="ccnum">Credit card number</label>
+              <br />
+              <input
+                css={input}
+                type="text"
+                id="ccnum"
+                name="cardnumber"
+                placeholder="1111-2222-3333-4444"
+                required
+              />
+              <span class="validity"></span>
+              <br />
+              <label htmlFor="expmonth">Exp Month</label>
+              <br />
+              <input
+                css={input}
+                type="text"
+                id="expmonth"
+                name="expmonth"
+                placeholder="September"
+                required
+              />
+              <span class="validity"></span>
+              <br />
+              <label htmlFor="expyear">Exp Year</label>
+              <br />
+              <input
+                css={input}
+                type="number"
+                id="expyear"
+                name="expyear"
+                placeholder="2020"
+                min="2020"
+              />
+              <span class="validity"></span>
+              <br />
+              <span class="validity"></span>
+              <label htmlFor="cvv">CVV</label>
+              <br />
+              <input
+                css={input}
+                type="text"
+                id="cvv"
+                name="cvv"
+                placeholder="352"
+                required
+                minlength="3"
+                maxLength="3"
+              />
+              <span class="validity"></span>
+              <br />
+            </div>
+            <button css={button}>Confirm</button>
           </form>
-          <p css={button}>
-            <Link href={`/thank-you`}>
-              <button>Confirm</button>
-            </Link>
-          </p>
         </main>
       </Layout>
     </div>

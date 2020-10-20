@@ -5,7 +5,6 @@ import { jsx, css } from '@emotion/core';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import nextCookies from 'next-cookies';
-// import Shoes from '.';
 
 const img = css`
   width: 700px;
@@ -39,13 +38,12 @@ font-size: 48px;
 `;
 
 export default function Shoe(props) {
-
   //set state of ids of selected shoes
   const [arrayofIds, setArrayofIds] = useState(props.arrayofIds);
-  
-  //set state for numberofItems array
+
+  //set state for number of items as displayed on shopping bag icon
   const [numberofItems, setNumberofItems] = useState(props.numberofItems);
-  
+
   //set cookie with number of shopping bag items
   useEffect(() => {
     Cookies.set('numberofItems', numberofItems);
@@ -57,22 +55,16 @@ export default function Shoe(props) {
 
   //When 'Add to bag' button is clicked:
   const handleAddtoBag = (id) => {
-
     const newArrayofIds = arrayofIds.concat(id);
 
     setArrayofIds(newArrayofIds);
 
-    
     //set number of Items in the shopping bag
     setNumberofItems(newArrayofIds.length);
-          
-             
   };
 
-  
-
   return (
-    <Layout numberofItems={numberofItems} >
+    <Layout numberofItems={numberofItems}>
       <Head>
         <title>{props.shoe[0].name}</title>
       </Head>
@@ -85,16 +77,12 @@ export default function Shoe(props) {
           <p>
             <li css={description}>{props.shoe[0].description}</li>
           </p>
-          <li>Article-Nr. {props.shoe[0].id}</li><br />
+          <li>Article-Nr. {props.shoe[0].id}</li>
+          <br />
           <li css={info2}>Size: {props.shoe[0].size}</li>
           <li css={info2}>Price: {props.shoe[0].price}€</li>
           <br />
-
-          <button
-            onClick={(item) =>
-              handleAddtoBag(props.shoe[0].id)
-            }
-          >
+          <button onClick={(item) => handleAddtoBag(props.shoe[0].id)}>
             Add to bag
           </button>
         </ul>
@@ -103,26 +91,27 @@ export default function Shoe(props) {
   );
 }
 
-
-
 export async function getServerSideProps(context) {
-
   const allCookies = nextCookies(context);
   const numberofItems = allCookies.numberofItems || 0;
   const arrayofIds = allCookies.arrayofIds || [];
 
-   
-// dynamic import, imports single shoe from databse
-const { getShoeById }  =  await import ('../../util/database')
-const id = parseInt(context.query.id)
-const shoe = await getShoeById(id);
+  // dynamic import, imports single shoe from databse
+  const { getShoeById } = await import('../../util/database');
+  const id = parseInt(context.query.id);
+  const shoe = await getShoeById(id);
 
-return {
-    props: { 
-            arrayofIds,
-            id, 
-            numberofItems,
-            shoe
-            }
+  // dynamic import, import ALL shoes from databse
+  const { getShoes } = await import('../../util/database');
+  const shoes = await getShoes();
+
+  return {
+    props: {
+      shoes,
+      arrayofIds,
+      id,
+      numberofItems,
+      shoe,
+    },
+  };
 }
-};

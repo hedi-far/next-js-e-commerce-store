@@ -1,9 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import Link from 'next/link';
-// import Cookies from 'js-cookie';
-// import { numberofItems } from '../pages/shoes/[id].js';
-// import nextCookies from 'next-cookies';
 
 const header = css`
   display: flex;
@@ -37,26 +34,20 @@ const cartitems = css`
 `;
 
 const nocartitems = css`
-/* background-color: #ffffff;
-color: #ffffff;
-z-index: -1; */
-display: none;
+  display: none;
 `;
 
-
 export default function Header(props) {
-
-  
+  //when shopping cart is empty, an empty shopping bag item is displayed!
   let numberofItems = props.numberofItems;
-  if (numberofItems === undefined || numberofItems === "0"){
-   numberofItems = false;
+  if (numberofItems === undefined || numberofItems === '0') {
+    numberofItems = false;
   }
 
-   
-return (
+  return (
     <header css={header}>
       <Link href="/">
-        <a css={a}>Home</a>
+        <a css={a}>Home {props.totalSum}</a>
       </Link>
       <Link href="/shoes/product-list">
         <a css={a}>All Products</a>
@@ -68,8 +59,8 @@ return (
         <a css={a}>On Sale</a>
       </Link>
       <Link href="/shopping-bag">
-        <a css={numberofItems ? cartitems : nocartitems }>{numberofItems}</a>
-        </Link>
+        <a css={numberofItems ? cartitems : nocartitems}>{numberofItems}</a>
+      </Link>
       <Link href="/shopping-bag">
         <a css={a}>
           <img
@@ -82,5 +73,3 @@ return (
     </header>
   );
 }
-
-
