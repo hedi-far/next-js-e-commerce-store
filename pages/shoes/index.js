@@ -1,12 +1,11 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import Layout from '../../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import nextCookies from 'next-cookies';
 
 const h1 = css`
- display: flex;
+  display: flex;
   justify-content: center;
   margin-bottom: 390px;
   margin-top: 200px;
@@ -27,13 +26,12 @@ export default function Shoes(props) {
 }
 
 export async function getServerSideProps(context) {
-
   const allCookies = nextCookies(context);
-  const numberofItems = allCookies.numberofItems || 0;
-   
+  const numberofItems = allCookies.numberofItems || '0';
+
   return {
-    props: {              
-            numberofItems,
-             },
+    props: {
+      numberofItems,
+    },
   };
 }

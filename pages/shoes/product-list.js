@@ -65,7 +65,7 @@ export async function getServerSideProps(context) {
   //get Cookies from server
   const allCookies = nextCookies(context);
   //displays number of items in shopping cart
-  const numberofItems = allCookies.numberofItems || 0;
+  const numberofItems = allCookies.numberofItems || '0';
 
   return {
     props: {

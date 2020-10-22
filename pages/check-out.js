@@ -198,7 +198,7 @@ export async function getServerSideProps(context) {
   //comes from next-cookie
   const allCookies = nextCookies(context);
   const arrayofIds = allCookies.arrayofIds || [];
-  const numberofItems = allCookies.numberofItems || 0;
+  const numberofItems = allCookies.numberofItems || '0';
 
   // dynamic import, imports all shoes from databse
   const { getShoes } = await import('../util/database');

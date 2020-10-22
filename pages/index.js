@@ -57,7 +57,7 @@ export default function Home(props) {
 
 export async function getServerSideProps(context) {
   const allCookies = nextCookies(context);
-  const numberofItems = allCookies.numberofItems || 0;
+  const numberofItems = allCookies.numberofItems || '0';
 
   return {
     props: {

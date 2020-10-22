@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import nextCookies from 'next-cookies';
 import Link from 'next/link';
+import { GetServerSidePropsContext} from 'next';
+
 
 const img = css`
   width: 700px;
@@ -44,12 +46,29 @@ const spacearound = css`
   margin: 10px;
 `;
 
-export default function Shoe(props) {
+//Type definitions
+type SingleShoe = {
+  id: number;
+  image: string;
+  name: string;
+  description: string;
+  size: number;
+  price: number 
+};
+
+
+type Props = {
+  arrayofIds: number[],
+  numberofItems: string,
+  shoe: SingleShoe[];
+};
+
+export default function Shoe(props: Props) {
   //set state of ids of selected shoes
   const [arrayofIds, setArrayofIds] = useState(props.arrayofIds);
 
   //set state for number of items as displayed on shopping bag icon
-  const [numberofItems, setNumberofItems] = useState(props.numberofItems);
+  const [numberofItems, setNumberofItems] = useState<string>(props.numberofItems);
 
   //set cookie with number of shopping bag items
   useEffect(() => {
@@ -61,14 +80,16 @@ export default function Shoe(props) {
     Cookies.set('arrayofIds', arrayofIds);
   }, [arrayofIds]);
 
+  
   //When 'Add to bag' button is clicked:
-  const handleAddtoBag = (id) => {
+  const handleAddtoBag = (id: number) => {
+   
     const newArrayofIds = arrayofIds.concat(id);
 
     setArrayofIds(newArrayofIds);
 
     //set number of Items in the shopping bag
-    setNumberofItems(newArrayofIds.length);
+    setNumberofItems(String(newArrayofIds.length));
   };
 
   return (
@@ -105,15 +126,16 @@ export default function Shoe(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const allCookies = nextCookies(context);
-  const numberofItems = allCookies.numberofItems || 0;
+  const numberofItems = allCookies.numberofItems || "0";
   const arrayofIds = allCookies.arrayofIds || [];
 
   // dynamic import, imports single shoe from databse
   const { getShoeById } = await import('../../util/database');
-  const id = parseInt(context.query.id);
-  const shoe = await getShoeById(id);
+
+  const id = Number(context.query.id);
+   const shoe = await getShoeById(id);
 
   // dynamic import, import ALL shoes from databse
   const { getShoes } = await import('../../util/database');

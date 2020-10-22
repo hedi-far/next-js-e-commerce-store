@@ -8,9 +8,11 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { finalBag } from '../util/final-bag';
 import { total } from '../util/total-sum';
+import { GetServerSidePropsContext } from 'next';
 
 const white = css`
   background-color: #ffffff !important;
+ 
 `;
 
 const emptytitle = css`
@@ -66,14 +68,33 @@ const shopmore = css`
   margin-left: 220px;
 `;
 
-export default function CheckOut(props) {
+//Type definitions
+type SingleShoe = {
+  id: number;
+  image: string;
+  name: string;
+  description: string;
+  size: number;
+  price: number;
+  amount: number;
+};
+
+type Props = {
+  arrayofIds: number[],
+  numberofItems: string,
+  shoe: SingleShoe[];
+  shoes: {}
+};
+
+export default function CheckOut(props: Props) {
   //set state for shoppingBag array
+  //eslint-disable-next-line no-unused-vars 
   const [shoppingBag, setShoppingBag] = useState(
     finalBag(props.shoes, props.arrayofIds),
   );
 
   //calculate price of each item based on amount to display in shopping bag
-  const calculatedPrice = (shoePrice, shoeAmount) => {
+  const calculatedPrice = (shoePrice: number, shoeAmount: number) => {
     return shoePrice * shoeAmount;
   };
   //set state for total sum
@@ -101,7 +122,7 @@ export default function CheckOut(props) {
   }, [shoppingBag]);
 
   //delete function - mutates original array
-  const handleDelete = (id) => {
+  const handleDelete = (id: number) => {
     for (let i = 0; i < arrayofIds.length; i++) {
       if (arrayofIds[i] === id) {
         arrayofIds.splice(i, 1);
@@ -113,30 +134,31 @@ export default function CheckOut(props) {
 
     setArrayofIds(filteredArrayofIds);
 
-    setNumberofItems(filteredArrayofIds.length);
+    setNumberofItems(String(filteredArrayofIds.length));
 
     Cookies.set('arrayofIds', arrayofIds);
   };
 
   //when plus button is clicked
-  const handleIncrease = (id) => {
+  const handleIncrease = (id: number) => {
     //add id of item to shopping bag
     const newArrayofIds = arrayofIds.concat(id);
 
     setArrayofIds(newArrayofIds);
 
     //set number of Items in the shopping bag
-    setNumberofItems(newArrayofIds.length);
+    setNumberofItems(String(newArrayofIds.length));
 
     Cookies.set('arrayofIds', arrayofIds);
   };
 
   //when minus button is clicked
-  const handleDecrease = (id, amount) => {
+  const handleDecrease = (id: number) => {
     //find first occurence of id in array of ids
     const indexOfId = arrayofIds.indexOf(id);
 
     //splice returns spliced items!
+    //eslint-disable-next-line no-unused-vars 
     const newArrayofIds = arrayofIds.splice(indexOfId, 1);
 
     //this is why we are reusing the original array!
@@ -144,12 +166,12 @@ export default function CheckOut(props) {
 
     setArrayofIds(decreasedArrayofIds);
 
-    setNumberofItems(decreasedArrayofIds.length);
+    setNumberofItems(String(decreasedArrayofIds.length));
 
     Cookies.set('arrayofIds', arrayofIds);
   };
 
-  if (props.numberofItems > 0) {
+  if (props.numberofItems !== "0") {
     return (
       <div>
         <Layout numberofItems={props.numberofItems}>
@@ -161,7 +183,7 @@ export default function CheckOut(props) {
               <table>
                 <tbody>
                   <tr>
-                    <td css={white} colSpan="6">
+                    <td css={white} colSpan={6}>
                       <h1 css={title}>Your Shopping Bag</h1>
                     </td>
                   </tr>
@@ -173,7 +195,7 @@ export default function CheckOut(props) {
                     <th>Prize</th>
                     <th>Options</th>
                   </tr>
-                  {shoppingBag.map((shoe) => (
+                  {shoppingBag.map((shoe: SingleShoe) => (
                     <tr key={shoe.id}>
                       <td>
                         <Link href={`/shoes/${shoe.id}`}>
@@ -224,7 +246,7 @@ export default function CheckOut(props) {
                     </td>
                   </tr>
                   <tr>
-                    <td css={white} colSpan="6">
+                    <td css={white} colSpan ={6}>
                       <Link href={`/all-products`}>
                         <button css={shopmore}>Shop more</button>
                       </Link>
@@ -260,11 +282,11 @@ export default function CheckOut(props) {
   }
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   //comes from next-cookie
   const allCookies = nextCookies(context);
 
-  const numberofItems = allCookies.numberofItems || 0;
+  const numberofItems = allCookies.numberofItems || "0";
   const arrayofIds = allCookies.arrayofIds || [];
 
   // dynamic import, imports all shoes from databse
