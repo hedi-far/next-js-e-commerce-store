@@ -37,17 +37,22 @@ const nocartitems = css`
   display: none;
 `;
 
-export default function Header(props) {
+type Props = {
+  numberofItems: string,
+ };
+
+
+export default function Header(props: Props) {
   //when shopping cart is empty, an empty shopping bag item is displayed!
   let numberofItems = props.numberofItems;
   if (numberofItems === undefined || numberofItems === '0') {
-    numberofItems = false;
+    numberofItems = "";
   }
 
   return (
     <header css={header}>
       <Link href="/">
-        <a css={a}>Home {props.totalSum}</a>
+        <a css={a}>Home</a>
       </Link>
       <Link href="/shoes/product-list">
         <a css={a}>All Products</a>
