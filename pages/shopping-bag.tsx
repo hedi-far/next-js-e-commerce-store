@@ -257,7 +257,7 @@ export default function CheckOut(props: Props) {
                   </tr>
                   <tr>
                     <td css={white} colSpan ={6}>
-                      <Link href={`/product-list`}>
+                      <Link href={"/shoes/product-list"}>
                         <button css={shopmore}>Shop more</button>
                       </Link>
                     </td>
