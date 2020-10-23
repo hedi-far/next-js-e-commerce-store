@@ -134,10 +134,13 @@ export default function CheckOut(props: Props) {
 
     setArrayofIds(filteredArrayofIds);
 
-    setNumberofItems(String(filteredArrayofIds.length));
+    setNumberofItems(String(filteredArrayofIds.length)); 
 
     Cookies.set('arrayofIds', arrayofIds);
-  };
+
+    window.location.reload();
+
+    };
 
   //when plus button is clicked
   const handleIncrease = (id: number) => {
@@ -152,6 +155,8 @@ export default function CheckOut(props: Props) {
     Cookies.set('arrayofIds', arrayofIds);
 
     window.location.reload();
+
+    
   };
 
   //when minus button is clicked
@@ -173,6 +178,7 @@ export default function CheckOut(props: Props) {
     Cookies.set('arrayofIds', arrayofIds);
 
     window.location.reload();
+    
   };
 
   if (props.numberofItems !== "0") {
@@ -251,7 +257,7 @@ export default function CheckOut(props: Props) {
                   </tr>
                   <tr>
                     <td css={white} colSpan ={6}>
-                      <Link href={`/all-products`}>
+                      <Link href={`/product-list`}>
                         <button css={shopmore}>Shop more</button>
                       </Link>
                     </td>
