@@ -150,6 +150,8 @@ export default function CheckOut(props: Props) {
     setNumberofItems(String(newArrayofIds.length));
 
     Cookies.set('arrayofIds', arrayofIds);
+
+    window.location.reload();
   };
 
   //when minus button is clicked
@@ -169,6 +171,8 @@ export default function CheckOut(props: Props) {
     setNumberofItems(String(decreasedArrayofIds.length));
 
     Cookies.set('arrayofIds', arrayofIds);
+
+    window.location.reload();
   };
 
   if (props.numberofItems !== "0") {
