@@ -93,6 +93,7 @@ export default function CheckOut(props: Props) {
     finalBag(props.shoes, props.arrayofIds),
   );
 
+  // console.log(shoppingBag)
   //calculate price of each item based on amount to display in shopping bag
   const calculatedPrice = (shoePrice: number, shoeAmount: number) => {
     return shoePrice * shoeAmount;
@@ -123,6 +124,8 @@ export default function CheckOut(props: Props) {
 
   //delete function - mutates original array
   const handleDelete = (id: number) => {
+    //looking for the id of the shoe to be deleted and 
+    //splice it from array
     for (let i = 0; i < arrayofIds.length; i++) {
       if (arrayofIds[i] === id) {
         arrayofIds.splice(i, 1);
@@ -130,14 +133,20 @@ export default function CheckOut(props: Props) {
       }
     }
 
+    //I want to use the original array that has been mutated, but
+    //apparently have to give it a name 
     const filteredArrayofIds = arrayofIds;
 
+    //set status of arrayofIds to mutated array
     setArrayofIds(filteredArrayofIds);
 
+    //update number displayed on shopping card
     setNumberofItems(String(filteredArrayofIds.length)); 
 
+    //set a cookie on update
     Cookies.set('arrayofIds', arrayofIds);
 
+    //reload the page
     window.location.reload();
 
     };
@@ -147,13 +156,16 @@ export default function CheckOut(props: Props) {
     //add id of item to shopping bag
     const newArrayofIds = arrayofIds.concat(id);
 
+    //set status of arrayofIds to mutated array
     setArrayofIds(newArrayofIds);
 
-    //set number of Items in the shopping bag
+     //update number displayed on shopping card
     setNumberofItems(String(newArrayofIds.length));
 
+     //set a cookie on update
     Cookies.set('arrayofIds', arrayofIds);
 
+    //reload the page
     window.location.reload();
 
     
@@ -161,22 +173,27 @@ export default function CheckOut(props: Props) {
 
   //when minus button is clicked
   const handleDecrease = (id: number) => {
-    //find first occurence of id in array of ids
+    //find first occurence of selected shoe id in array of ids
     const indexOfId = arrayofIds.indexOf(id);
 
-    //splice returns spliced items!
+    //splice returns spliced item 
     //eslint-disable-next-line no-unused-vars 
     const newArrayofIds = arrayofIds.splice(indexOfId, 1);
 
-    //this is why we are reusing the original array!
+    //this is why we are reusing the original array, but we have
+    // rename it
     const decreasedArrayofIds = arrayofIds;
 
+    //set status of arrayofIds to mutated array
     setArrayofIds(decreasedArrayofIds);
 
+     //update number displayed on shopping card 
     setNumberofItems(String(decreasedArrayofIds.length));
 
+    //set a cookie on update
     Cookies.set('arrayofIds', arrayofIds);
 
+    //reload the page
     window.location.reload();
     
   };

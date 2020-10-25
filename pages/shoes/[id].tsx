@@ -80,7 +80,6 @@ export default function Shoe(props: Props) {
     Cookies.set('arrayofIds', arrayofIds);
   }, [arrayofIds]);
 
-  
   //When 'Add to bag' button is clicked:
   const handleAddtoBag = (id: number) => {
    
@@ -92,7 +91,7 @@ export default function Shoe(props: Props) {
     setNumberofItems(String(newArrayofIds.length));
   };
 
-  return (
+ return (
     <Layout numberofItems={numberofItems}>
       <Head>
         <title>{props.shoe[0].name}</title>

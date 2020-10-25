@@ -20,9 +20,11 @@ const container = css`
 `;
 
 export default function ThankYou() {
+  //eslint-disable-next-line no-unused-vars
   const numberofItems = Cookies.remove('numberofItems', {
     path: './thank-you',
   });
+  //eslint-disable-next-line no-unused-vars
   const arrayofIds = Cookies.remove('arrayofIds', { path: './thank-you' });
 
   return (
