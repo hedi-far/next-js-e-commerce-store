@@ -88,4 +88,4 @@ yarn migrate down
 
 ## Heroku
 
-[Find the project on Heroku](https://the-random-shoe-outlet.herokuapp.com/"
+[Find the project on Heroku](https://the-random-shoe-outlet.herokuapp.com/)
