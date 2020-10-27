@@ -9,6 +9,8 @@ import Cookies from 'js-cookie';
 import { finalBag } from '../util/final-bag';
 import { total } from '../util/total-sum';
 import { GetServerSidePropsContext } from 'next';
+import { Reload } from '../util/reload';
+
 
 const white = css`
   background-color: #ffffff !important;
@@ -88,10 +90,6 @@ type Props = {
 
 export default function CheckOut(props: Props) {
 
-  //state is used to re-render components and 
-  //immediately display changes in shoppingBag
-  const [, forceUpdate] = useState(true);
-
   //set state for shoppingBag array
   //eslint-disable-next-line no-unused-vars 
   const [shoppingBag, setShoppingBag] = useState(
@@ -152,12 +150,9 @@ export default function CheckOut(props: Props) {
     //set a cookie on update
     Cookies.set('arrayofIds', arrayofIds);
 
-    // forceUpdate(n => !n);
+     };
 
-    };
-
-    // console.log(arrayofIds)
-    // console.log(numberofItems)
+    
 
   //when plus button is clicked
   const handleIncrease = (id: number) => {
@@ -170,13 +165,6 @@ export default function CheckOut(props: Props) {
      //update number displayed on shopping card
     setNumberofItems(String(newArrayofIds.length));
 
-     //set a cookie on update
-    // Cookies.set('arrayofIds', arrayofIds);
-
-    // //reload the page from the server
-    //  Location.reload(true); 
-
-    
   };
 
   //when minus button is clicked
@@ -200,10 +188,7 @@ export default function CheckOut(props: Props) {
 
     //set a cookie on update
     Cookies.set('arrayofIds', arrayofIds);
-
-    // //reload the page
-    // window.location.reload(false); 
-    
+   
   };
 
   if (props.numberofItems !== "0") {
@@ -218,7 +203,7 @@ export default function CheckOut(props: Props) {
               <table>
                 <tbody>
                   <tr>
-                    <td css={white} colSpan={6}>
+                    <td css={white} colSpan={7}>
                       <h1 css={title}>Your Shopping Bag</h1>
                     </td>
                   </tr>
@@ -229,6 +214,7 @@ export default function CheckOut(props: Props) {
                     <th>Size</th>
                     <th>Prize</th>
                     <th>Options</th>
+                    <th></th>
                   </tr>
                   {shoppingBag.map((shoe: SingleShoe) => (
                     <tr key={shoe.id}>
@@ -266,6 +252,9 @@ export default function CheckOut(props: Props) {
                           Delete All
                         </button>
                       </td>
+                      <td>
+                        <Reload />
+                      </td>
                     </tr>
                   ))}
                   <tr css={totalAmount}>
@@ -279,9 +268,10 @@ export default function CheckOut(props: Props) {
                         <button data-cy="pay-now">Pay now</button>
                       </Link>
                     </td>
+                    <td></td>
                   </tr>
                   <tr>
-                    <td css={white} colSpan ={6}>
+                    <td css={white} colSpan ={7}>
                       <Link href={"/shoes/product-list"}>
                         <button css={shopmore}>Shop more</button>
                       </Link>

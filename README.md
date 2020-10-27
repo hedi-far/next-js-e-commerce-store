@@ -1,30 +1,90 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# next-js e-commerce-store
 
-## Getting Started
+## description
 
-First, run the development server:
+This e-commerce-store is called "The Random Shoe Outlet" was created with Next.js. It has:
 
-```bash
-npm run dev
-# or
-yarn dev
+- a start page,
+- a page with all avalaible items,
+- a page for each single item with a description and price
+  changed and/or the item can be deleted,
+- a checkout page with a validated form,
+  a thank-you page,
+- a shopping bag icon displaying the number of items in it.
+
+![start page](/screenshot_home.jpg)
+![shopping bag](/screenshot_shopping_bag.jpg)
+![check out page](/screenshot_checkout.jpg)
+
+## technologies used
+
+- Next.js
+- Postgres.js
+- Ley
+- dotenv
+- Emotion/core
+- js-cookie
+- Next-cookies
+  Jest
+- Cypress.io
+- GitHub Actions
+
+## Database Setup
+
+Copy the `.env.example` file to a new file called `.env` (ignored from Git) and fill in the necessary information.
+
+Follow the instructions from the PostgreSQL step in [UpLeveled's System Setup Instructions](https://github.com/upleveled/system-setup/blob/master/readme.md).
+
+Then, connect to the built-in `postgres` database as administrator in order to create the database:
+
+**Windows**
+
+If it asks for a password, use `postgres`.
+
+```sh
+psql -U postgres
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**macOS**
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```sh
+psql postgres
+```
 
-## Learn More
+Once you have connected, run the following to create the database:
 
-To learn more about Next.js, take a look at the following resources:
+```sql
+CREATE DATABASE <database name>;
+CREATE USER <user name> WITH ENCRYPTED PASSWORD '<user password>';
+GRANT ALL PRIVILEGES ON DATABASE <database name> TO <user name>;
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Then, to connect to the database using this new user, quit `psql` and reconnect:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```sh
+\q
+psql -U <user name> <database name>
+```
 
-## Deploy on Vercel
+### Running the migrations
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To set up the structure and the content of the database, run the migrations using Ley:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```sh
+yarn migrate up
+```
+
+To reverse the last single migration, run:
+
+```sh
+yarn migrate down
+```
+
+### Start application /
+
+1st terminal: `postgres` (start dbms)
+2ns terminal: `psql -U <user name> <database name>` (work with database, enter new data etc.) 3. `yarn start` (start web app on localhost:3000)
+
+## Heroku
+
+[Find the project on Heroku]("https://the-random-shoe-outlet.herokuapp.com/")
