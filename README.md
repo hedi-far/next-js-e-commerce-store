@@ -2,14 +2,14 @@
 
 ## description
 
-This e-commerce-store is called "The Random Shoe Outlet" was created with Next.js. It has:
+This e-commerce-store is called "The Random Shoe Outlet" and was created with Next.js. It has:
 
 - a start page,
 - a page with all avalaible items,
 - a page for each single item with a description and price
-  changed and/or the item can be deleted,
+- a shopping bag page where the amount of each item can be changed and/ or the item can be deleted,
 - a checkout page with a validated form,
-  a thank-you page,
+- a thank-you page,
 - a shopping bag icon displaying the number of items in it.
 
 ![start page](/screenshot_home.jpg)
@@ -25,7 +25,7 @@ This e-commerce-store is called "The Random Shoe Outlet" was created with Next.j
 - Emotion/core
 - js-cookie
 - Next-cookies
-  Jest
+- Jest
 - Cypress.io
 - GitHub Actions
 
@@ -82,9 +82,10 @@ yarn migrate down
 
 ### Start application /
 
-1st terminal: `postgres` (start dbms)
-2ns terminal: `psql -U <user name> <database name>` (work with database, enter new data etc.) 3. `yarn start` (start web app on localhost:3000)
+- 1st terminal: `postgres` (start dbms)
+- 2nd terminal: `psql -U <user name> <database name>` (work with database, enter new data etc.)
+- 3rd terminal: `yarn start` (start web app on localhost:3000)
 
 ## Heroku
 
-[Find the project on Heroku]("https://the-random-shoe-outlet.herokuapp.com/")
+[Find the project on Heroku](https://the-random-shoe-outlet.herokuapp.com/"
