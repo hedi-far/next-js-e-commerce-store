@@ -1,6 +1,6 @@
-# next-js e-commerce-store
+# Next.js E-Commerce-Store
 
-## description
+## Description
 
 This e-commerce-store is called "The Random Shoe Outlet" and was created with Next.js. It has:
 
