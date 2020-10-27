@@ -16,7 +16,7 @@ This e-commerce-store is called "The Random Shoe Outlet" was created with Next.j
 ![shopping bag](/screenshot_shopping_bag.jpg)
 ![check out page](/screenshot_checkout.jpg)
 
-## technologies used
+## Technologies used
 
 - Next.js
 - Postgres.js
