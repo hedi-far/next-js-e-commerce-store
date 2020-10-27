@@ -55,16 +55,16 @@ export default function Header(props: Props) {
         <a css={a}>Home</a>
       </Link>
       <Link href="/shoes/product-list">
-        <a css={a}>All Products</a>
+        <a css={a} data-cy="header-link-product-list" >All Products</a>
       </Link>
       <Link href="/">
         <a css={a}>New In</a>
       </Link>
       <Link href="/">
-        <a css={a}>On Sale</a>
+        <a css={a} >On Sale</a>
       </Link>
       <Link href="/shopping-bag">
-        <a css={numberofItems ? cartitems : nocartitems}>{numberofItems}</a>
+        <a data-cy="bag-icon" css={numberofItems ? cartitems : nocartitems} >{numberofItems}</a>
       </Link>
       <Link href="/shopping-bag">
         <a css={a}>

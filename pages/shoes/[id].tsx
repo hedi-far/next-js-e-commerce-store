@@ -94,7 +94,7 @@ export default function Shoe(props: Props) {
  return (
     <Layout numberofItems={numberofItems}>
       <Head>
-        <title>{props.shoe[0].name}</title>
+        <title data-cy="product-name">{props.shoe[0].name}</title>
       </Head>
 
       <div css={shoeInfo}>
@@ -110,7 +110,7 @@ export default function Shoe(props: Props) {
           <li css={info2}>Size: {props.shoe[0].size}</li>
           <li css={info2}>Price: {props.shoe[0].price}€</li>
           <br />
-          <button onClick={(item) => handleAddtoBag(props.shoe[0].id)}>
+          <button onClick={(item) => handleAddtoBag(props.shoe[0].id)}  data-cy={"add-to-bag-button"}>
             Add to bag
           </button>
           <Link href="/shoes/product-list">

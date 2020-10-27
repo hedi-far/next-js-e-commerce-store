@@ -46,7 +46,12 @@ export default function ShoppingCart(props) {
             return (
               <li key={shoe.id}>
                 <Link href={`/shoes/${shoe.id}`}>
-                  <img css={product} src={`${shoe.image}`} alt="shoe"></img>
+                  <img
+                    css={product}
+                    src={`${shoe.image}`}
+                    alt="shoe"
+                    data-cy="product-image"
+                  ></img>
                 </Link>
               </li>
             );

@@ -87,13 +87,17 @@ type Props = {
 };
 
 export default function CheckOut(props: Props) {
+
+  //state is used to re-render components and 
+  //immediately display changes in shoppingBag
+  const [, forceUpdate] = useState(true);
+
   //set state for shoppingBag array
   //eslint-disable-next-line no-unused-vars 
   const [shoppingBag, setShoppingBag] = useState(
     finalBag(props.shoes, props.arrayofIds),
   );
 
-  // console.log(shoppingBag)
   //calculate price of each item based on amount to display in shopping bag
   const calculatedPrice = (shoePrice: number, shoeAmount: number) => {
     return shoePrice * shoeAmount;
@@ -124,6 +128,8 @@ export default function CheckOut(props: Props) {
 
   //delete function - mutates original array
   const handleDelete = (id: number) => {
+  
+     
     //looking for the id of the shoe to be deleted and 
     //splice it from array
     for (let i = 0; i < arrayofIds.length; i++) {
@@ -141,15 +147,17 @@ export default function CheckOut(props: Props) {
     setArrayofIds(filteredArrayofIds);
 
     //update number displayed on shopping card
-    setNumberofItems(String(filteredArrayofIds.length)); 
+    setNumberofItems(String(filteredArrayofIds.length));
 
     //set a cookie on update
     Cookies.set('arrayofIds', arrayofIds);
 
-    //reload the page
-    window.location.reload();
+    // forceUpdate(n => !n);
 
     };
+
+    // console.log(arrayofIds)
+    // console.log(numberofItems)
 
   //when plus button is clicked
   const handleIncrease = (id: number) => {
@@ -163,10 +171,10 @@ export default function CheckOut(props: Props) {
     setNumberofItems(String(newArrayofIds.length));
 
      //set a cookie on update
-    Cookies.set('arrayofIds', arrayofIds);
+    // Cookies.set('arrayofIds', arrayofIds);
 
-    //reload the page
-    window.location.reload();
+    // //reload the page from the server
+    //  Location.reload(true); 
 
     
   };
@@ -193,8 +201,8 @@ export default function CheckOut(props: Props) {
     //set a cookie on update
     Cookies.set('arrayofIds', arrayofIds);
 
-    //reload the page
-    window.location.reload();
+    // //reload the page
+    // window.location.reload(false); 
     
   };
 
@@ -234,7 +242,7 @@ export default function CheckOut(props: Props) {
                         </Link>
                       </td>
                       <td>
-                        <button
+                        <button data-cy="increase-button"
                           css={smallbutton}
                           onClick={(item) => handleIncrease(shoe.id)}
                         >
@@ -254,7 +262,7 @@ export default function CheckOut(props: Props) {
                       <td>{shoe.size}</td>
                       <td>{calculatedPrice(shoe.price, shoe.amount)}€</td>
                       <td>
-                        <button onClick={(item) => handleDelete(shoe.id)}>
+                        <button data-cy="delete-button" onClick={(item) => handleDelete(shoe.id)}>
                           Delete All
                         </button>
                       </td>
@@ -262,7 +270,7 @@ export default function CheckOut(props: Props) {
                   ))}
                   <tr css={totalAmount}>
                     <td>Total:</td>
-                    <td>{props.numberofItems}</td>
+                    <td data-cy="total">{props.numberofItems}</td>
                     <td></td>
                     <td></td>
                     <td>{totalSum} €</td>
