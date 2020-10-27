@@ -250,7 +250,7 @@ export default function CheckOut(props: Props) {
                           +
                         </button>{' '}
                         {shoe.amount}{' '}
-                        <button
+                        <button data-cy="decrease-button"
                           css={smallbutton}
                           onClick={(item) => handleDecrease(shoe.id)}
                         >
@@ -276,7 +276,7 @@ export default function CheckOut(props: Props) {
                     <td>{totalSum} €</td>
                     <td>
                       <Link href={`/check-out`}>
-                        <button>Pay now</button>
+                        <button data-cy="pay-now">Pay now</button>
                       </Link>
                     </td>
                   </tr>

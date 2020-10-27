@@ -186,7 +186,9 @@ export default function CheckOut(props) {
               <span class="validity"></span>
               <br />
             </div>
-            <button css={button}>Confirm</button>
+            <button data-cy="confirm-button" css={button}>
+              Confirm
+            </button>
           </form>
         </main>
       </Layout>
