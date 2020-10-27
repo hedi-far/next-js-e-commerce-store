@@ -28,6 +28,7 @@ This e-commerce-store is called "The Random Shoe Outlet" and was created with Ne
 - Jest
 - Cypress.io
 - GitHub Actions
+- Photos from unsplash.com
 
 ## Database Setup
 
