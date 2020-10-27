@@ -21,6 +21,7 @@
     "postgres": "^1.0.2",
     "react": "16.13.1",
     "react-dom": "16.13.1"
+    
   },
   "devDependencies": {
     "@types/js-cookie": "^2.2.6",
@@ -45,5 +46,13 @@
   },
   "cacheDirectories": [
     ".next/cache"
-  ]
+  ],
+  "engines":{
+    "name": "myapp",
+    "description": "a really cool app",
+    "version": "1.0.0",
+    "engines": {
+      "node": "14.x"
+     }
+  }
 }
