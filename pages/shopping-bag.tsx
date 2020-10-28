@@ -109,7 +109,7 @@ export default function CheckOut(props: Props) {
   //set cookie with number of shopping bag items
   useEffect(() => {
     Cookies.set('numberofItems', numberofItems);
-  }, [numberofItems]);
+  }, [numberofItems, props.shoes]);
 
   //set cookie with IDs of shopping bag items
   useEffect(() => {
@@ -259,7 +259,7 @@ export default function CheckOut(props: Props) {
   } else {
     return (
       <div>
-        <Layout numberofItems={props.numberofItems}>
+        <Layout numberofItems={numberofItems}>
           <Head>
             <title>Shopping Bag</title>
           </Head>

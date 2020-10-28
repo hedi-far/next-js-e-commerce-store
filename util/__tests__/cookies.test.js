@@ -1,3 +1,5 @@
+//run 'yarn jest' to run tests
+
 import Cookies from 'js-cookie';
 
 //Test functions for adding and removing info from cookie

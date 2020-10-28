@@ -1,3 +1,5 @@
+//run 'yarn jest' to run tests
+
 import Cookies from 'js-cookie';
 
 // Test function for updating amount in item of cookie
@@ -22,11 +24,11 @@ test('existing id is added to cookie', () => {
 
 //when minus button is clicked, amount of shoe with id = "2" is removed from shopping cart
 const handleDecrease = () => {
-  const indexOfId = arrayofIds.indexOf(id);
+  arrayofIds.unshift(arrayofIds.splice(arrayofIds.indexOf(id), 1)[0]);
 
-  arrayofIds.splice(indexOfId, 1);
+  const decreasedArrayofIds = arrayofIds.slice(1);
 
-  return arrayofIds;
+  return decreasedArrayofIds;
 };
 
 test('existing id is removed from shopping cart', () => {

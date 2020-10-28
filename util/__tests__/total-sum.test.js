@@ -1,3 +1,5 @@
+//run 'yarn jest' to run tests
+
 import { total } from '../total-sum.js';
 
 //test cart sum function

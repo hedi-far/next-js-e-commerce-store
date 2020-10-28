@@ -1,3 +1,5 @@
+//run 'yarn cypress open' to run tests
+
 describe('Add to cart, change quantity and remove from cart', () => {
   it('navigates to the website!', () => {
     cy.visit('http://localhost:3000');

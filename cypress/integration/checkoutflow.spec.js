@@ -1,3 +1,5 @@
+//run 'yarn cypress open' to run tests
+
 describe('Checkout flow, payment page, thank you page', () => {
   it('navigates to the website!', () => {
     cy.visit('http://localhost:3000');
