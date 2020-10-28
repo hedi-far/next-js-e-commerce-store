@@ -24,7 +24,7 @@ test('existing id is added to cookie', () => {
 const handleDecrease = () => {
   const indexOfId = arrayofIds.indexOf(id);
 
-  const newArrayofIds = arrayofIds.splice(indexOfId, 1);
+  arrayofIds.splice(indexOfId, 1);
 
   return arrayofIds;
 };
