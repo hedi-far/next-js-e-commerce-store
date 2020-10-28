@@ -20,13 +20,10 @@ test('first id is added to cookie', () => {
 });
 
 const handleDelete = () => {
-  for (let i = 0; i < arrayofIds.length; i++) {
-    if (arrayofIds[i] === id) {
-      arrayofIds.splice(i, 1);
-      i--;
-    }
-    return arrayofIds;
-  }
+  const filteredArrayofIds = arrayofIds.filter(
+    (idtoRemove) => idtoRemove !== id,
+  );
+  return filteredArrayofIds;
 };
 
 test('id is removed from shopping cart', () => {

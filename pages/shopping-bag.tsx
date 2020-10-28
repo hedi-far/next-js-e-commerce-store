@@ -11,10 +11,8 @@ import { total } from '../util/total-sum';
 import { GetServerSidePropsContext } from 'next';
 import { Reload } from '../util/reload';
 
-
 const white = css`
   background-color: #ffffff !important;
- 
 `;
 
 const emptytitle = css`
@@ -82,16 +80,15 @@ type SingleShoe = {
 };
 
 type Props = {
-  arrayofIds: number[],
-  numberofItems: string,
+  arrayofIds: number[];
+  numberofItems: string;
   shoe: SingleShoe[];
-  shoes: {}
+  shoes: {};
 };
 
 export default function CheckOut(props: Props) {
-
   //set state for shoppingBag array
-  //eslint-disable-next-line no-unused-vars 
+  //eslint-disable-next-line no-unused-vars
   const [shoppingBag, setShoppingBag] = useState(
     finalBag(props.shoes, props.arrayofIds),
   );
@@ -117,7 +114,8 @@ export default function CheckOut(props: Props) {
   //set cookie with IDs of shopping bag items
   useEffect(() => {
     Cookies.set('arrayofIds', arrayofIds);
-  }, [arrayofIds]);
+    setShoppingBag(finalBag(props.shoes, arrayofIds));
+  }, [arrayofIds, props.shoes]);
 
   //set totalSum on every change in shoppingBag
   useEffect(() => {
@@ -126,33 +124,16 @@ export default function CheckOut(props: Props) {
 
   //delete function - mutates original array
   const handleDelete = (id: number) => {
-  
-     
-    //looking for the id of the shoe to be deleted and 
-    //splice it from array
-    for (let i = 0; i < arrayofIds.length; i++) {
-      if (arrayofIds[i] === id) {
-        arrayofIds.splice(i, 1);
-        i--;
-      }
-    }
-
-    //I want to use the original array that has been mutated, but
-    //apparently have to give it a name 
-    const filteredArrayofIds = arrayofIds;
+    const filteredArrayofIds = arrayofIds.filter(
+      (idtoRemove) => idtoRemove !== id,
+    );
 
     //set status of arrayofIds to mutated array
     setArrayofIds(filteredArrayofIds);
 
     //update number displayed on shopping card
     setNumberofItems(String(filteredArrayofIds.length));
-
-    //set a cookie on update
-    Cookies.set('arrayofIds', arrayofIds);
-
-     };
-
-    
+  };
 
   //when plus button is clicked
   const handleIncrease = (id: number) => {
@@ -162,39 +143,29 @@ export default function CheckOut(props: Props) {
     //set status of arrayofIds to mutated array
     setArrayofIds(newArrayofIds);
 
-     //update number displayed on shopping card
+    //update number displayed on shopping card
     setNumberofItems(String(newArrayofIds.length));
-
   };
 
   //when minus button is clicked
   const handleDecrease = (id: number) => {
-    //find first occurence of selected shoe id in array of ids
-    const indexOfId = arrayofIds.indexOf(id);
+    //move id to firs position in array
+    arrayofIds.unshift(arrayofIds.splice(arrayofIds.indexOf(id), 1)[0]);
 
-    //splice returns spliced item 
-    //eslint-disable-next-line no-unused-vars 
-    const newArrayofIds = arrayofIds.splice(indexOfId, 1);
-
-    //this is why we are reusing the original array, but we have
-    // rename it
-    const decreasedArrayofIds = arrayofIds;
+    //slice ar first position
+    const decreasedArrayofIds = arrayofIds.slice(1);
 
     //set status of arrayofIds to mutated array
     setArrayofIds(decreasedArrayofIds);
 
-     //update number displayed on shopping card 
+    //update number displayed on shopping card
     setNumberofItems(String(decreasedArrayofIds.length));
-
-    //set a cookie on update
-    Cookies.set('arrayofIds', arrayofIds);
-   
   };
 
-  if (props.numberofItems !== "0") {
+  if (numberofItems !== '0') {
     return (
       <div>
-        <Layout numberofItems={props.numberofItems}>
+        <Layout numberofItems={numberofItems}>
           <Head>
             <title>Shopping Bag</title>
           </Head>
@@ -203,7 +174,7 @@ export default function CheckOut(props: Props) {
               <table>
                 <tbody>
                   <tr>
-                    <td css={white} colSpan={7}>
+                    <td css={white} colSpan={6}>
                       <h1 css={title}>Your Shopping Bag</h1>
                     </td>
                   </tr>
@@ -214,7 +185,6 @@ export default function CheckOut(props: Props) {
                     <th>Size</th>
                     <th>Prize</th>
                     <th>Options</th>
-                    <th></th>
                   </tr>
                   {shoppingBag.map((shoe: SingleShoe) => (
                     <tr key={shoe.id}>
@@ -228,7 +198,8 @@ export default function CheckOut(props: Props) {
                         </Link>
                       </td>
                       <td>
-                        <button data-cy="increase-button"
+                        <button
+                          data-cy="increase-button"
                           css={smallbutton}
                           onClick={(item) => handleIncrease(shoe.id)}
                         >
@@ -236,7 +207,8 @@ export default function CheckOut(props: Props) {
                           +
                         </button>{' '}
                         {shoe.amount}{' '}
-                        <button data-cy="decrease-button"
+                        <button
+                          data-cy="decrease-button"
                           css={smallbutton}
                           onClick={(item) => handleDecrease(shoe.id)}
                         >
@@ -248,18 +220,18 @@ export default function CheckOut(props: Props) {
                       <td>{shoe.size}</td>
                       <td>{calculatedPrice(shoe.price, shoe.amount)}€</td>
                       <td>
-                        <button data-cy="delete-button" onClick={(item) => handleDelete(shoe.id)}>
+                        <button
+                          data-cy="delete-button"
+                          onClick={(item) => handleDelete(shoe.id)}
+                        >
                           Delete All
                         </button>
-                      </td>
-                      <td>
-                        <Reload />
                       </td>
                     </tr>
                   ))}
                   <tr css={totalAmount}>
                     <td>Total:</td>
-                    <td data-cy="total">{props.numberofItems}</td>
+                    <td data-cy="total">{numberofItems}</td>
                     <td></td>
                     <td></td>
                     <td>{totalSum} €</td>
@@ -271,8 +243,8 @@ export default function CheckOut(props: Props) {
                     <td></td>
                   </tr>
                   <tr>
-                    <td css={white} colSpan ={7}>
-                      <Link href={"/shoes/product-list"}>
+                    <td css={white} colSpan={6}>
+                      <Link href={'/shoes/product-list'}>
                         <button css={shopmore}>Shop more</button>
                       </Link>
                     </td>
@@ -311,7 +283,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   //comes from next-cookie
   const allCookies = nextCookies(context);
 
-  const numberofItems = allCookies.numberofItems || "0";
+  const numberofItems = allCookies.numberofItems || '0';
   const arrayofIds = allCookies.arrayofIds || [];
 
   // dynamic import, imports all shoes from databse
