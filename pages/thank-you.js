@@ -1,8 +1,8 @@
 import Head from 'next/head';
-import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import Cookies from 'js-cookie';
+import Layout from '../components/Layout';
 
 const image = css`
   height: 350px;
@@ -21,11 +21,11 @@ const container = css`
 
 export default function ThankYou() {
   //eslint-disable-next-line no-unused-vars
-  const numberofItems = Cookies.remove('numberofItems', {
+  const numberOfItems = Cookies.remove('numberOfItems', {
     path: './thank-you',
   });
   //eslint-disable-next-line no-unused-vars
-  const arrayofIds = Cookies.remove('arrayofIds', { path: './thank-you' });
+  const arrayOfIds = Cookies.remove('arrayOfIds', { path: './thank-you' });
 
   return (
     <div>

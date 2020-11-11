@@ -1,6 +1,6 @@
+import Link from 'next/link';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import Link from 'next/link';
 
 const header = css`
   display: flex;
@@ -21,7 +21,7 @@ const a = css`
   cursor: pointer;
 `;
 
-const cartitems = css`
+const cartItems = css`
   text-align: center;
   height: 20px;
   width: 20px;
@@ -33,20 +33,19 @@ const cartitems = css`
   cursor: pointer;
 `;
 
-const nocartitems = css`
+const noCartItems = css`
   display: none;
 `;
 
 type Props = {
-  numberofItems: string,
- };
-
+  numberOfItems: string;
+};
 
 export default function Header(props: Props) {
   //when shopping cart is empty, an empty shopping bag item is displayed!
-  let numberofItems = props.numberofItems;
-  if (numberofItems === undefined || numberofItems === '0') {
-    numberofItems = "";
+  let numberOfItems = props.numberOfItems;
+  if (numberOfItems === undefined || numberOfItems === '0') {
+    numberOfItems = '';
   }
 
   return (
@@ -55,16 +54,20 @@ export default function Header(props: Props) {
         <a css={a}>Home</a>
       </Link>
       <Link href="/shoes/product-list">
-        <a css={a} data-cy="header-link-product-list" >All Products</a>
+        <a css={a} data-cy="header-link-product-list">
+          All Products
+        </a>
       </Link>
       <Link href="/">
         <a css={a}>New In</a>
       </Link>
       <Link href="/">
-        <a css={a} >On Sale</a>
+        <a css={a}>On Sale</a>
       </Link>
       <Link href="/shopping-bag">
-        <a data-cy="bag-icon" css={numberofItems ? cartitems : nocartitems} >{numberofItems}</a>
+        <a data-cy="bag-icon" css={numberOfItems ? cartItems : noCartItems}>
+          {numberOfItems}
+        </a>
       </Link>
       <Link href="/shopping-bag">
         <a css={a}>

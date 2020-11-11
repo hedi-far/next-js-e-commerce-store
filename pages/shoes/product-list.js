@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import Layout from '../../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import nextCookies from 'next-cookies';
+import Layout from '../../components/Layout';
 
 const intro = css`
   display: flex;
@@ -34,7 +34,7 @@ const gallery = css`
 export default function ShoppingCart(props) {
   return (
     <div>
-      <Layout numberofItems={props.numberofItems}>
+      <Layout numberofItems={props.numberOfItems}>
         <Head>
           <title>All products</title>
         </Head>
@@ -63,19 +63,19 @@ export default function ShoppingCart(props) {
 }
 
 export async function getServerSideProps(context) {
-  // dynamic import, import ALL shoes from databse
+  // dynamic import, import ALL shoes from database
   const { getShoes } = await import('../../util/database');
   const shoes = await getShoes();
 
   //get Cookies from server
   const allCookies = nextCookies(context);
   //displays number of items in shopping cart
-  const numberofItems = allCookies.numberofItems || '0';
+  const numberOfItems = allCookies.numberOfItems || '0';
 
   return {
     props: {
       shoes,
-      numberofItems,
+      numberOfItems,
     },
   };
 }

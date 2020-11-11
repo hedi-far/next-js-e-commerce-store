@@ -1,6 +1,6 @@
+import Link from 'next/link';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import Link from 'next/link';
 
 const footer = css`
   display: flex;

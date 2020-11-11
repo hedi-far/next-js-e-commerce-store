@@ -1,13 +1,12 @@
-import Layout from '../../components/Layout';
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import nextCookies from 'next-cookies';
-import Link from 'next/link';
-import { GetServerSidePropsContext} from 'next';
-
+import Layout from '../../components/Layout';
 
 const img = css`
   width: 700px;
@@ -36,13 +35,13 @@ const ul = css`
   list-style-type: none;
 `;
 
-const shoename = css`
+const shoeName = css`
   ul & {
     font-size: 48px;
   }
 `;
 
-const spacearound = css`
+const spaceAround = css`
   margin: 10px;
 `;
 
@@ -53,46 +52,46 @@ type SingleShoe = {
   name: string;
   description: string;
   size: number;
-  price: number 
+  price: number;
 };
 
-
 type Props = {
-  arrayofIds: number[],
-  numberofItems: string,
+  arrayOfIds: number[];
+  numberOfItems: string;
   shoe: SingleShoe[];
 };
 
 export default function Shoe(props: Props) {
   //set state of ids of selected shoes
-  const [arrayofIds, setArrayofIds] = useState(props.arrayofIds);
+  const [arrayOfIds, setArrayOfIds] = useState(props.arrayOfIds);
 
   //set state for number of items as displayed on shopping bag icon
-  const [numberofItems, setNumberofItems] = useState<string>(props.numberofItems);
+  const [numberOfItems, setNumberOfItems] = useState<string>(
+    props.numberOfItems,
+  );
 
   //set cookie with number of shopping bag items
   useEffect(() => {
-    Cookies.set('numberofItems', numberofItems);
-  }, [numberofItems]);
+    Cookies.set('numberOfItems', numberOfItems);
+  }, [numberOfItems]);
 
   //set cookie with ids of selected shoes
   useEffect(() => {
-    Cookies.set('arrayofIds', arrayofIds);
-  }, [arrayofIds]);
+    Cookies.set('arrayOfIds', arrayOfIds);
+  }, [arrayOfIds]);
 
   //When 'Add to bag' button is clicked:
-  const handleAddtoBag = (id: number) => {
-   
-    const newArrayofIds = arrayofIds.concat(id);
+  const handleAddToBag = (id: number) => {
+    const newArrayOfIds = arrayOfIds.concat(id);
 
-    setArrayofIds(newArrayofIds);
+    setArrayOfIds(newArrayOfIds);
 
     //set number of Items in the shopping bag
-    setNumberofItems(String(newArrayofIds.length));
+    setNumberOfItems(String(newArrayOfIds.length));
   };
 
- return (
-    <Layout numberofItems={numberofItems}>
+  return (
+    <Layout numberOfItems={numberOfItems}>
       <Head>
         <title data-cy="product-name">{props.shoe[0].name}</title>
       </Head>
@@ -101,7 +100,7 @@ export default function Shoe(props: Props) {
         <img css={img} src={props.shoe[0].image} alt={props.shoe[0].name}></img>
 
         <ul css={ul}>
-          <li css={shoename}>{props.shoe[0].name}</li>
+          <li css={shoeName}>{props.shoe[0].name}</li>
           <p>
             <li css={description}>{props.shoe[0].description}</li>
           </p>
@@ -110,11 +109,14 @@ export default function Shoe(props: Props) {
           <li css={info2}>Size: {props.shoe[0].size}</li>
           <li css={info2}>Price: {props.shoe[0].price}€</li>
           <br />
-          <button onClick={(item) => handleAddtoBag(props.shoe[0].id)}  data-cy={"add-to-bag-button"}>
+          <button
+            onClick={(item) => handleAddToBag(props.shoe[0].id)}
+            data-cy={'add-to-bag-button'}
+          >
             Add to bag
           </button>
           <Link href="/shoes/product-list">
-            <button css={spacearound}>Shop more</button>
+            <button css={spaceAround}>Shop more</button>
           </Link>
           <Link href="/shopping-bag">
             <button>Go to bag</button>
@@ -127,25 +129,25 @@ export default function Shoe(props: Props) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const allCookies = nextCookies(context);
-  const numberofItems = allCookies.numberofItems || "0";
-  const arrayofIds = allCookies.arrayofIds || [];
+  const numberOfItems = allCookies.numberOfItems || '0';
+  const arrayOfIds = allCookies.arrayOfIds || [];
 
-  // dynamic import, imports single shoe from databse
+  // dynamic import, imports single shoe from database
   const { getShoeById } = await import('../../util/database');
 
   const id = Number(context.query.id);
-   const shoe = await getShoeById(id);
+  const shoe = await getShoeById(id);
 
-  // dynamic import, import ALL shoes from databse
+  // dynamic import, import ALL shoes from database
   const { getShoes } = await import('../../util/database');
   const shoes = await getShoes();
 
   return {
     props: {
       shoes,
-      arrayofIds,
+      arrayOfIds,
       id,
-      numberofItems,
+      numberOfItems,
       shoe,
     },
   };

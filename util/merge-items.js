@@ -1,9 +1,9 @@
-export function mergeItems(shoes, arrayofIds) {
+export function mergeItems(shoes, arrayOfIds) {
   return shoes.map((shoe) => {
     return {
       ...shoe,
-      inBag: arrayofIds.includes(shoe.id), //true or false
-      amount: arrayofIds.reduce((counter, id) => {
+      inBag: arrayOfIds.includes(shoe.id), //true or false
+      amount: arrayOfIds.reduce((counter, id) => {
         return shoe.id === id ? (counter += 1) : counter;
       }, 0),
     };

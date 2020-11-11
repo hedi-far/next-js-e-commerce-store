@@ -1,8 +1,6 @@
 import Head from 'next/head';
-import Header from './Header';
-import Footer from './Footer';
-/** @jsx jsx */
-import { jsx } from '@emotion/core';
+import Header from './Header.tsx';
+import Footer from './Footer.tsx';
 
 export default function Layout(props) {
   return (
@@ -10,7 +8,7 @@ export default function Layout(props) {
       <Head>
         <html lang="eng" />
       </Head>
-      <Header numberofItems={props.numberofItems} />
+      <Header numberOfItems={props.numberOfItems} />
       <main>{props.children}</main>
       <Footer />
     </>

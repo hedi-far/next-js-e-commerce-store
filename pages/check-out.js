@@ -1,8 +1,8 @@
 import Head from 'next/head';
-import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import nextCookies from 'next-cookies';
+import Layout from '../components/Layout';
 import { total } from '../util/total-sum';
 import { finalBag } from '../util/final-bag';
 
@@ -43,12 +43,12 @@ const input = css`
 `;
 
 export default function CheckOut(props) {
-  const shoppingBag = finalBag(props.shoes, props.arrayofIds);
+  const shoppingBag = finalBag(props.shoes, props.arrayOfIds);
   const totalSum = total(shoppingBag);
 
   return (
     <div>
-      <Layout numberofItems={props.numberofItems}>
+      <Layout numberOfItems={props.numberOfItems}>
         <Head>
           <title>Check-out</title>
         </Head>
@@ -199,17 +199,17 @@ export default function CheckOut(props) {
 export async function getServerSideProps(context) {
   //comes from next-cookie
   const allCookies = nextCookies(context);
-  const arrayofIds = allCookies.arrayofIds || [];
-  const numberofItems = allCookies.numberofItems || '0';
+  const arrayOfIds = allCookies.arrayOfIds || [];
+  const numberOfItems = allCookies.numberOfItems || '0';
 
-  // dynamic import, imports all shoes from databse
+  // dynamic import, imports all shoes from database
   const { getShoes } = await import('../util/database');
   const shoes = await getShoes();
 
   return {
     props: {
-      arrayofIds,
-      numberofItems,
+      arrayOfIds,
+      numberOfItems,
       shoes,
     },
   };

@@ -1,8 +1,8 @@
 import Head from 'next/head';
-import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import nextCookies from 'next-cookies';
+import Layout from '../components/Layout';
 
 const intro = css`
   display: flex;
@@ -26,7 +26,7 @@ const galleryItem = css`
 export default function Home(props) {
   return (
     <div>
-      <Layout numberofItems={props.numberofItems}>
+      <Layout numberOfItems={props.numberOfItems}>
         <Head>
           <title>Welcome!</title>
         </Head>
@@ -57,11 +57,11 @@ export default function Home(props) {
 
 export async function getServerSideProps(context) {
   const allCookies = nextCookies(context);
-  const numberofItems = allCookies.numberofItems || '0';
+  const numberOfItems = allCookies.numberOfItems || '0';
 
   return {
     props: {
-      numberofItems,
+      numberOfItems,
     },
   };
 }
