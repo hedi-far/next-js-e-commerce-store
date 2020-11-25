@@ -85,7 +85,7 @@ yarn migrate down
 
 - 1st terminal: `postgres` (starts dbms)
 - 2nd terminal: `psql -U <user name> <database name>` (to work with database, enter new data etc.)
-- 3rd terminal: `yarn start` (starts web app on localhost:3000)
+- 3rd terminal: `yarn dev` (starts web app on localhost:3000)
 
 ## Heroku
 
